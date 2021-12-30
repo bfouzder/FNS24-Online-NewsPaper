@@ -1,7 +1,7 @@
 <?php ob_start(); session_start();
 /**
  * @author aditya(bfouzder@yahoo.com)
- * @copyright 2021
+ * @copyright 2015
  */
 
 if($_SERVER['HTTP_HOST'] == 'localhost'):

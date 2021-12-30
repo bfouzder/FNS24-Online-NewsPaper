@@ -335,7 +335,7 @@ class dbclass
 	      return trim(stripslashes($string));
 	    } elseif (is_array($string)) {
 	      reset($string);
-		  //This each function has been DEPRECATED as of PHP 7.2.0, and REMOVED as of PHP 8.0.0. 
+		  //This function has been DEPRECATED as of PHP 7.2.0, and REMOVED as of PHP 8.0.0. Relying on this function is highly discouraged.
 	      #while (list($key, $value) = each($string)) {
 	      foreach($string as $key => $value) {
 	        $string[$key] = $this->db_prepare_input($value);

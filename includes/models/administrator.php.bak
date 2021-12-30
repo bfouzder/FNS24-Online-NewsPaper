@@ -120,8 +120,8 @@
 		            //if the check less than -2^31
 		            $Check = ($Check < -2147483648) ? ($Check + $Int32Unit) : $Check;
 		        }
-		        #$Check += ord($Str{$i}); //Since PHP 7.4 curly braces method to get individual characters inside a string has been deprecated
-		        $Check += ord($Str[$i]);
+		        $Check += ord($Str{$i}); //Since PHP 7.4 curly braces method to get individual characters inside a string has been deprecated
+		        $Check += ord($Str{$i});
 		    }
 		    return $Check;
 		}

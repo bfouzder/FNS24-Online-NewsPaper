@@ -35,6 +35,10 @@ $error="";
 //if user already logged in then redirect to myfiles
  if(state('AR_admin')){
 	  redirect("siteadminpanel"); 
+ }else{
+	  if($_GET['ref'] != 'crmadminpanel'){
+		//redirect();  
+	  }
  }
 ?>
 <!DOCTYPE html>

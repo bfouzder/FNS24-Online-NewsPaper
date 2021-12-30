@@ -42,7 +42,9 @@ if (defined('ENVIRONMENT'))
 }
 
 
+
 	require('includes/router.php');
+	   echo "ssssssssssssss";exit;
 	require('includes/config.php');
 
    //pre($_COOKIE);
