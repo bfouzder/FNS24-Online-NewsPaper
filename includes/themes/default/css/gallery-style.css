@@ -1,0 +1,224 @@
+.gallery-main-block {
+    background: #0a1328;
+    margin-bottom: 2px;
+}
+
+.gallery-page .navbar {
+    background: #041232;
+}
+
+.gallery-page .footer .navbar-nav > li.active > a:focus,
+.gallery-page .footer .navbar-nav > li.active > a:hover,
+.gallery-page .footer .navbar-nav > li > a:hover,
+.gallery-page .footer .navbar-nav > li.active > a,
+.gallery-page .head-block .nav > li.active > a,
+.gallery-page .head-block .nav > li > a:focus,
+.gallery-page .head-block .nav > li > a:hover {
+    background: #fff;
+    color: #041232;
+}
+
+.gallery-page .header {
+    background: #162345;
+}
+
+#gallery-main-slider .carousel-control {
+    background-color: transparent;
+    background-image: none;
+    text-shadow: none;
+    opacity: 1;
+    width: 5%;
+}
+
+.carousel-control .icon-prev,
+.carousel-control .icon-next,
+.carousel-control .glyphicon-chevron-left,
+.carousel-control .glyphicon-chevron-right {
+    top: 7px;
+    margin-top: 0;
+}
+
+#gallery-main-slider  .carousel-indicators .active {
+    width: 15px;
+    height: 15px;
+}
+
+#gallery-main-slider  .carousel-control.right {
+    right: 0;
+    left: auto;
+}
+
+#gallery-main-slider  .carousel-control.left {
+    left: auto;
+    right: 30px;
+}
+
+#gallery-main-slider .carousel-caption {
+    background: #162345;
+    left: 0;
+    right: 0;
+    text-shadow: none;
+    text-align: left;
+    font-size: 25px;
+    line-height: 30px;
+    color: #fff;
+    padding: 10px;
+}
+
+.gl-box h4 a,
+#gallery-main-slider .carousel-caption a {
+    color: #fff;
+}
+
+.gl-box h4 a:hover,
+#gallery-main-slider .carousel-caption a:hover {
+    color: #1a68b5;
+}
+
+#gallery-main-slider .carousel-indicators li {
+    width: 14px;
+    height: 14px;
+}
+
+#gallery-main-slider .carousel-indicators {
+    bottom: auto;
+    top: 15px;
+    margin-left: 0;
+    text-align: right;
+    right: 75px;
+    left: auto;
+    z-index: 30;
+}
+
+.gl-box {
+    padding: 0 10px 15px 10px;
+}
+
+.gl-box h4 {
+    font-size: 19px;
+    line-height: 22px;
+    color: #fff;
+    padding: 10px 0 2px 0;
+}
+
+.meta-info {
+    font-size: 16px;
+    color: #fff;
+}
+
+.gl-news-title {
+    font-size: 25px;
+    line-height: 30px;
+    padding: 10px;
+    background: #231f20;
+    color: #fff;
+    font-weight: normal;
+    margin: 10px auto;
+}
+
+.gl-main-news img {
+    border: 1px solid #919396;
+}
+
+.gallery-page .footer .navbar-nav > li > a {
+    background: none;
+}
+
+.view-block ul {
+    margin: 0;
+    padding: 0;
+}
+
+.view-block ul li {
+    display: inline-block;
+}
+
+.view-block ul li a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    font-size: 14px;
+    border: 1px solid transparent;
+}
+
+.view-block ul li a.active,
+.view-block ul li a:hover {
+    border: 1px solid #fff;
+}
+
+.page-nav-area {
+    margin: auto;
+    text-align: center;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    margin: 0 2px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.footer  .gallery-footer-top {
+    margin: 25px 0;
+}
+
+.our-client-block {
+    background: #636466;
+    padding: 5px 10px;
+}
+
+.our-client-block h6 {
+    color: #fff;
+    padding: 0 0 5px 0;
+    font-weight: bold;
+}
+
+.list-client  li {
+    float: left;
+    margin: 0 10px 0 0;
+    display: inline-block;
+    *zoom: 1;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.list-client  li a {
+    display: block;
+    padding: 4px;
+    background: #f0522a;
+    color: #fff;
+    text-align: center;
+}
+
+.title-head, .description {
+    padding: 15px 10px;
+    color: #fff;
+}
+
+.description p,
+.title-head h1 {
+    padding: 0 0 3px 0;
+    color: #fff;
+}
+
+.title-head a {
+    color: #fff;
+}
+
+.title-head a:hover {
+    color: #f7f7f7;
+}
+
+.adv-block-details {
+    padding:  10px;
+}
+.tab-pane{
+    background: #0a1328;
+  }
+
+
+
+
+
