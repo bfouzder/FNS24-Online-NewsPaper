@@ -23,7 +23,7 @@ $ar_fb_meta_description='Daily Inqilab The Most Popular Bangla Newspaper, Brings
 $meta_url=isset($meta_url)?$meta_url:CURRENT_URL;
 if($_SERVER['REQUEST_SCHEME']=='http'){
     $rd=str_replace('http','https',CURRENT_URL);
-    urlredirect($rd);exit;
+    //urlredirect($rd);exit;
 }
 ?>
 <!DOCTYPE HTML>
@@ -43,8 +43,8 @@ if($_SERVER['REQUEST_SCHEME']=='http'){
 	<meta name="googlebot-news" content="all"/>
 	<meta name="robots" content="index, follow" />
 	<?php 
-	$fb_image=($fb_image)?$fb_image:SCRIPT_URL.'images/fns_share_logo.jpg'; 
-	if($params[0] == 'article') {
+	$fb_image=isset($fb_image)?$fb_image:SCRIPT_URL.'images/fns_share_logo.jpg'; 
+	if(@$params[0] == 'article') {
 		  if($fb_image){ 
 			$img_sizess=getimagesize(str_replace(SCRIPT_URL, BASE_DIR, $fb_image));
 			list($og_image_width, $og_image_height, $og_image_types, $og_image_attr) = $img_sizess;

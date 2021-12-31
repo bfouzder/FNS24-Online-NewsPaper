@@ -4858,7 +4858,7 @@ $data['message'] = "Registration Success. A Confirmation email has been  sent to
 		require(ADMIN_TEMPLATE_STORE.'imagemanager' . DS .'manage_image_category.php');  
 		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/footer.php');	
 	}
-	function addPhotos($params=array()){
+	function addAlbum($params=array()){
 		global $db;
 		if(!$this->user_id){ $this->login();exit; }
 
@@ -4876,7 +4876,6 @@ $data['message'] = "Registration Success. A Confirmation email has been  sent to
 			$description= $this->db->db_prepare_input($this->db->post('description'));
 			$reporter= $this->db->db_prepare_input($this->db->post('reporter'));
 			$album_cats= $this->db->db_prepare_input($this->db->post('album_cats'));			
-			$albumimages= $this->db->db_prepare_input($this->db->post('albumimages'));
 			
 			$seo_title=$_POST['seo_title'];
 			$_POST['seo_title']=($seo_title)?$seo_title:makeurl($album_title);
@@ -4895,61 +4894,7 @@ $data['message'] = "Registration Success. A Confirmation email has been  sent to
 				//$_POST['albumimages'] = ar_serialize($albumimages);
 				$album_id= $db->bindPOST('image_albums','album_id');
 				if($album_id){
-					
-						$upload_dir = IMAGE_DIR.'gallery/';
-						$upload_url = IMAGE_URL.'gallery/';
-						
-						if($_FILES){
-							foreach($_FILES['albumimages']['name']['image_name'] as $img_key => $file_name){
-							 if($file_name){
-							   $file_name=$_FILES['albumimages']['name']['image_name'][$img_key];
-							   $file_tmp_name=$_FILES['albumimages']['tmp_name']['image_name'][$img_key];
-							   $image_caption= $_POST['albumimages']['image_caption'][$img_key];
-//$album_cover= $_POST['albumimages']['album_cover'][$img_key];
-							   $slider_image= $_POST['albumimages']['slider_image'][$img_key];
-							   $slider_image= ($slider_image)?$slider_image:0;
-							   
-							   
-							   $file_ext=strtolower(@end(explode(".",$file_name)));
-							   $new_file_name=date("Y_m_d").'_'.$album_id.'_'.$file_name;							
-							   
-							   list($width, $height, $type, $attr) = getimagesize($file_tmp_name);
-							   
-							   
-							   if(in_array($file_ext,$allow_extention)){
-								   $upload_to=$upload_dir. $new_file_name;
-								  // echo $file_tmp_name .'='. $upload_to.'<br/>';
-								   
-								   
-									if(@move_uploaded_file($file_tmp_name, $upload_to)){
-										 $image_path=$upload_url. $new_file_name;
-										 $imageinfo=array();
-										 $imageinfo['type']='image_albums';
-										 $imageinfo['type_id']=$album_id;
-										 $imageinfo['image_name']=$new_file_name;
-										 $imageinfo['image_caption']=$image_caption;
-										 $imageinfo['slider_image']=$slider_image;
-										 $imageinfo['image_path']=$image_path;
-										 $imageinfo['width']=$width;
-										 $imageinfo['height']=$height;
-										 $imageinfo['image_ext']=$file_ext;
-										 $image_id[]=$db->bindPOST('images','id',$imageinfo);
-										 
-										 #bof cover Image
-										 if($_POST['albumimage']['cover_image'] == $img_key){
-											// echo "UPDATE image_albums SET `fec_image`='$image_path' WHERE album_id='$album_id'";
-											$db->edit("UPDATE image_albums SET `fec_image`='$image_path' WHERE album_id='$album_id'");   
-										 }//
-  								   }else{
-									  $error .="Failed to upload $file_field_name";
-								   }
-								  }
-								}//if file name
-							}//	foreach file
-						}//if files 
-					
-				 //echo "<br/>album id=".$album_id;	
-				 $message ="Successfully Uploaded:: $album_id";
+					redirect('siteadminpanel/manageAlbumPhotos/?type=image_albums&type_id='.$album_id);
 				}//album_id
 			}//if not error				
 		}//if form submitted
@@ -4957,7 +4902,20 @@ $data['message'] = "Registration Success. A Confirmation email has been  sent to
 
 		 //SHOW PAGES
 		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/header.php');
-		require(ADMIN_TEMPLATE_STORE.'imagemanager' . DS .'album_list_add.php');  
+		require(ADMIN_TEMPLATE_STORE.'imagemanager' . DS .'album_add.php');  
+		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/footer.php');		
+	}
+	function manageAlbumPhotos($params=array()){
+		global $db;
+		if(!$this->user_id){ $this->login();exit; }
+
+		$user_id=$this->user_id;
+		//$album_id=$params['0']; 
+		//$album_info=$db->select_single("SELECT * FROM image_albums WHERE album_id='$album_id'");
+
+		//SHOW PAGES
+		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/header.php');
+		require(ADMIN_TEMPLATE_STORE.'imagemanager' . DS .'album_manage_photos.php');  
 		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
 	
@@ -5301,7 +5259,7 @@ function photosAlbums($params = array()){
     function popup_imagemanager($params = array()){
 			global $lang,$db,$session;
 		
-			if(!$this->user_id){ $this->login();exit; }
+			//if(!$this->user_id){ $this->login();exit; }
             
 			require(COMMON_TEMPLATES.'header-common.php');
 			require(ADMIN_TEMPLATE_STORE.$this->controller . DS .'popup_imagemanager.php');

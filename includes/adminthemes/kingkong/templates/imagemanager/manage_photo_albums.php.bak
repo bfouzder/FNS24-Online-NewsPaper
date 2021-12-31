@@ -114,7 +114,7 @@
                 
                 <div class="clearfix"></div>
  <!--<a href="<?=ADMIN_URL?>popup_imagemanager/?type=image_albums&type_id=<?= $value['album_id']; ?>" class="fancybox fancybox.iframe" target="_blank"><button type="button" class="btn btn-primary">Manage Photos</button></a>-->
- <a href="<?=ADMIN_URL?>manageAlbumPhotos/?type=image_albums&type_id=<?= $value['album_id']; ?>" class="btn btn-primary">Manage Photos</button></a>
+ <a href="<?=ADMIN_URL?>manageAlbumPhotos/?type=image_albums&type_id=<?= $value['album_id']; ?>"><button type="button" class="btn btn-primary">Manage Photos</button></a>
                 </td>
             </tr>
             

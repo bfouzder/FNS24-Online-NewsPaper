@@ -447,7 +447,7 @@ class home{
 		//$news_article_pub_date=$news_article_info["DateTimeInserted"];
 	
 		if($news_article_info['news_id_temp']){
-		   $news_article_image = ($news_article_image)?SCRIPT_URL.'includes/3rdParty/timthumb.php?src='.$news_article_image.'&h=560&w=560&zc=3':$news_article_image;	
+		   $news_article_image = ($news_article_image)?SCRIPT_URL.'includes/3rdParty/timthumb.php?src='.$news_article_image.'&h=560&w=560&zc=2':$news_article_image;	
 		}
 	
 		#category Info

@@ -71,8 +71,7 @@ $pending_total =  0;
                     <li><a><i class="fa fa-windows"></i> Manage Photo Gallery<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
     					  <li><a href="<?=ADMIN_URL?>manageImageCategory">Photo Categories</a></li> 
-    					  <!--<li><a href="<?=ADMIN_URL?>addAlbumList">Add Photos</a></li>-->
-    					  <li><a href="<?=ADMIN_URL?>addAlbum">Add Photos</a></li>
+    					  <li><a href="<?=ADMIN_URL?>addAlbumList">Add Photos</a></li>
                        	  <li><a href="<?=ADMIN_URL?>photosAlbums">Manage Albums</a></li>
                         </ul>
                       </li>

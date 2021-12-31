@@ -5,12 +5,13 @@ $primary_key='id';
 $max_width=1800;
 $max_height=1350;
 
-$type='image_albums';
+$type=trim($db->get_post('type'));
 $type_id=trim($db->get_post('type_id'));
 if(!$type && $type_id){die('Wrong access');}
 $type_info=$db->getRowArray($type,$type_id);
-
+//pre($type_info);
 $type_title=$type_info['album_title'];
+$fec_image=$type_info['fec_image'];
 
 $page=$db->get('page');
 $link = $this->controller."/manageAlbumPhotos/?type=$type&type_id=$type_id&";
@@ -46,7 +47,7 @@ if($type='image_albums'){
 if($db->post('checkSubmitted')){	
    $ids = $db->post('ids');
    $post_action = $db->post('action');
-   //pre($_POST);exit;
+   #pre($_POST);
   	if($ids){
   		foreach($ids as $id){
   		    $image_info=$db->getRowArray($table_name,array('id'=>$id));
@@ -59,11 +60,20 @@ if($db->post('checkSubmitted')){
 				  		        }                                
 		  		                break;
 				 case 'UpdateCaption':
+							$fecImage =$_POST['fecImage'];
 							$img_info=array();
 							$img_info['id']=$id;	  
 							$img_info['image_caption']=$_POST['image_captions'][$id];	
                             $img_info['slider_image']=$_POST['slider_images'][$id];  		
-							$id=$db->bindPOST("images","id", $img_info);                             
+                            $img_info['slider_image']=$_POST['fecImage'][$id];  
+						
+							$id=$db->bindPOST("images","id", $img_info);   
+							if($fecImage){
+								//pre($img_info);
+								//echo "UPDATE image_albums SET `fec_image`='$fecImage' WHERE album_id='$type_id'";
+								$db->edit("UPDATE image_albums SET `fec_image`='$fecImage' WHERE album_id='$type_id'");
+							}
+							
 							break;		
 				 case 'Update':
 							$img_info=array();
@@ -74,90 +84,18 @@ if($db->post('checkSubmitted')){
 							break;								
   	         }//switch	
   		 }//foreach         
-         
+         $type_info=$db->getRowArray($type,$type_id);
+		 $fec_image=$type_info['fec_image'];
   	  }//ids
+	  
+
   }
 
 
 
 //upload
-if($db->post('formSubmitted')){
-$err=array();	
-if($_POST['image_url']=="" && $_FILES["item_image"]["name"]==""){
-	array_push($err,"Browse Images Or Enter Image Url");
-}else{
-		if($_FILES["item_image"]["name"]){
-				$img_name=$_FILES["item_image"]["name"];
-				$item_image_ext=strtolower(@end(explode(".",$_FILES["item_image"]["name"])));
-        		 if(!in_array($item_image_ext,$allow_extention)){				
-        		  	array_push($err," .$item_image_ext type of Image doesn't support enter only ".implode(",",$allow_extention));
-        		 }
-		}elseif($_POST['image_url']){
-			$img_name = basename($_POST['image_url']);
-			if($img_name ==""){
-				array_push($err,"Enter valid image url");	
-			}else{
-				$item_image_ext=strtolower(@end(explode(".",$img_name)));
-				 if(!in_array($item_image_ext,$allow_extention)){				
-        		  	array_push($err," .$item_image_ext type of Image doesn't support enter only ".implode(",",$allow_extention));
-        		 }	
-			}	
-		}
-}	
-if($err){
- $error = implode("<br />",$err);
-}else{
-					
-				  		
-			$_POST['type']=$type;	  		
-			$_POST['type_id']=$type_id;	  		
-			$id=$db->bindPOST("images","id");
-			if($id){
-				$item_image=$id.'-'.$type_id.'.'.$item_image_ext;
-			     $upload_to=$tmp_upload_dir.$item_image;
-              
-				//IMAGE UP 
-					if($_FILES["item_image"]["name"]){
-						   if(@move_uploaded_file($_FILES["item_image"]["tmp_name"], $upload_to)){
-						   		    $imgurl = $tmp_upload_url.$item_image;    								   	
-                                    $imageinfo = upload_image($upload_dir,$imgurl,$item_image,$max_width,$max_width); 
-    								if($imageinfo){
-    								    $imageinfo['id']=$id;
-										$db->bindPOST('images','id',$imageinfo);
-                                        state('up_succ',"  Successfully uploaded");
-                                        @unlink($upload_to);
-								   	}else{
-								   	    $db->deleteField('images',$id); @unlink($upload_to);
-								   	   	state('up_error',"  failed to resize image ");
-								    }
-						   }else{
-						   	   	 $db->deleteField('images',$id); @unlink($upload_to);
-							     state('up_error',"  failed to move image ");
-						   }
-					}elseif($_POST['image_url']){
-					  
-                                $imgurl = trim($_POST['image_url']);    								   	
-                                $imageinfo = upload_image($upload_dir,$imgurl,$item_image,1024,1024); 
-								if($imageinfo){
-								    $imageinfo['id']=$id;
-									$db->bindPOST('images','id',$imageinfo);
-                                    state('up_succ',"  Successfully uploaded");
-							   	}else{
-							   	    //$db->deleteField('images',$id); @unlink($upload_to);
-							   	   	state('up_error',"  failed to resize image ");
-							    }   	
-						  
-					}else{
-					 $db->deleteField('images',$id); @unlink($upload_to);
-				      state('up_error',"  failed to image upload from url");
-					}
-					
-			} 			
-	  		redirect($link);
-  	}
-}
-$link .='&';
-
+ 	
+$manage_images_link = SCRIPT_URL."siteadminpanel/manageAlbumPhotos/?type=image_albums&type_id=$type_id";
 ?>
 <style type="text/css">ul li{list-style-type:none;}.page ul li{display:inline;} .page ul li{padding:4px;} .valid {color: green;} .invalid {color: #ff0000;} </style>
 
@@ -168,7 +106,6 @@ function checkSearchForm(){
     	return false;
     }
 }
-
 function showhide(id1) {if(document.getElementById(id1).style.display=='none') {document.getElementById(id1).style.display='block';} else {document.getElementById(id1).style.display='none';}}
 function poptastic(url){
 		var newwindow=window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=600,height=400,screenX=150,screenY=150,top=80,left=30');
@@ -183,57 +120,95 @@ function check_action(){
 	return true;
 }
 
-function  MakeClose(){
-    window.opener.location.reload();
-    window.close();
-}
-function  checkForm(form){
-	$("#errordata").css('display','block');
-	if(form.site_id.value=="")
-	    $('#errordata').html("Select Site");
-	else if(form.title.value=="")
-	    $('#errordata').html("Enter Title");
-	else if(form.url.value=="")
-	    $('#errordata').html("Enter Url");
-	else if(form.type_id.value=="")
-	    $('#errordata').html("Choose Type");	    
-   	else
-		  return true;
-  return false;
-}
 </script>
-<div class="container">
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <center>
-        <h3><?=$type_title?></h3>
-        <h2 style="color: orange;">Upload Photo</h2>
-        </center>	
-        
-        <!--<img src="<?=SCRIPT_URL?>resources/files/gen_image.php?nome=FNS24.COM" alt="ssssssssssssssssssss" width="200"/>-->
-        	 
-        <div class="valid" ><?=$message.state('up_success')?></div>
-        <div class="invalid"><?=$error.state('up_error')?></div>
-        <div id="errordata"></div>
-        <form class="form-inline" action="" method="post"  onsubmit="return checkUploadImageForm(this);" enctype="multipart/form-data">
-        <input type="hidden" name="formSubmitted" value="true"/>
-        
-                <div class="form-group">
-                    <label>Image</label><input  type="file" name="item_image" class="form-control"  required="required"/>
-                </div>
-                <div class="form-group">
-                    <label>Caption</label><input  type="text" class="form-control"  name="image_caption" value=""/>
-                </div>
-                <div class="form-group">
-                 <input type="submit" name="" value="Upload" class="btn btn-info" />&nbsp;&nbsp;<!--<input type="button" value="Close" onclick="MakeClose();"/>--></td></tr>
-                </div>	  
-        </form>
-    </div>
-</div>
-
+<div class="containet">
+	<div class="panel panel-primary">
+	<div class="panel-heading">
+	  <h3 class="panel-title">Photo Album :<?=$type_title?> </h3>
+	</div>
+	<div class="panel-body">
+	<div class="alert" id="showMessage"></div>
+	<!--bof Add Multi photos-->
+	<style>
+		#drop_file_zone {background-color: #EEE;	border: #999 5px dashed;width: 100%;height: 250px;padding: 8px;font-size: 18px;}
+		#drag_upload_file { width:50%; margin:0 auto;}
+		#drag_upload_file p { text-align: center;}
+		#drag_upload_file #selectfile { display: none;}
+		.img_block{ padding:10px;margin-bottom:20px;}
+		.img_block img{ min-height:150px; width:auto; text-align:center;}
+	</style>
+	<form name="" action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+	<input type="hidden" name="doSubmit" value="true" />
+	<input type="hidden" id="album_id" name="album_id" value="<?=$type_id?>" />
+	<div class="form-group">
+		<div class="col-sm-12">
+			<div id="drop_file_zone" ondrop="upload_file(event)" ondragover="return false">
+				<div id="drag_upload_file">
+				<br/>
+				<br/>
+					<p>Drop Photo(s) here</p>
+					<p>or</p>
+					<p><input type="button" value="Select Photo(s)" onclick="file_explorer();" /></p>
+					<input type="file" id="selectfile" multiple />
+				</div>
+			</div>
+		</div>	
+	</div>
+	</form>
+	<div class="clearfix"></div>  
+	<script>
+		///////////AJAX MULTIPLE PHOTON
+		function upload_file(e) {
+			e.preventDefault();
+			ajax_file_upload(e.dataTransfer.files);
+		}		  
+		function file_explorer() {
+			document.getElementById('selectfile').click();
+			document.getElementById('selectfile').onchange = function() {
+				files = document.getElementById('selectfile').files;
+				ajax_file_upload(files);
+			};
+		}		  
+		function ajax_file_upload(files_obj) {
+			if(files_obj != undefined) {
+				var form_data = new FormData();
+				for(i=0; i<files_obj.length; i++) {
+					form_data.append('file[]', files_obj[i]);
+				}
+				jQuery('#showMessage').html("Uploading..........");
+				//Album
+				form_data.append('album_id', jQuery('#album_id').val());
+				var uploadURL='<?=SCRIPT_URL?>ajax/ajax_photos.php';
+				var xhttp = new XMLHttpRequest();
+				xhttp.open("POST", uploadURL, true);
+				xhttp.onload = function(event) {
+					if (xhttp.status == 200) {
+						//var json = $.parseJSON(this.responseText);
+						var json = JSON.parse(this.responseText); 
+						if(json.message == 'Success'){
+							location ='<?=$manage_images_link?>';
+						}else{
+						jQuery('#showMessage').html('<p style="color:red;">'+json.error+'</p>');
+						//jQuery('#showMessage').html(this.responseText);
+						}
+						
+					} else {
+						//alert("Error " + xhttp.status + " occurred when trying to upload your file.");
+						jQuery('#showMessage').html("Error " + xhttp.status + " occurred when trying to upload your file.");
+					}
+				}
+		 
+				xhttp.send(form_data);
+			}
+		}
+	</script>
+	<!--eof Add Multi photos-->	
+	
+	<a href="<?=ADMIN_URL?>manageAlbumPhotos/?type=image_albums&type_id=<?= $type_id?>" class="btn btn-danger pull-right">Refresh</a>
+	<hr/>
 <?php
 
-$limit=($db->get('limit'))?$db->get('limit'):12;
+$limit=($db->get('limit'))?$db->get('limit'):36;
 $squery="";
 $sql="SELECT * FROM images WHERE type='$type' and type_id='$type_id' ";
 
@@ -249,25 +224,8 @@ $pages = make_pagination($sql,$page,$limit);
 $sql .= " ORDER BY date(`created`) DESC  LIMIT ".$pages['start_form'].",".$pages['per_page'];
 
 $rows=$db->select($sql);
-?>
-
-<?php
 if($rows){
 ?>
-<hr/>
-<h2><?=$type_title?> Photos</h2>
-<!--<form action="" method="get"  onsubmit="return checkSearchForm();" >
- <input type="hidden" name="type" value="<?=$type?>"/><input type="hidden" name="type_id" value="<?=$type_id?>"/>   
-	<table border="0" cellpadding="3" cellspacing="4">
-		<tr><td><strong>List of images</strong></td>
-			<td><input type="text" id="ssquery" name="q" value="Search images.." onfocus="this.value=''" onblur="this.value='Search images..'"/></td>
-			<td>
-                <input type="submit" value="search"/>
-               
-            <input type="button" value="Clear" onclick="window.location.href='imagemanager.php?type=<?=$type?>&type_id=<?=$type_id?>'"/></td>
-		</tr>
-	</table>
-</form>-->
 
 <form action="" method="post" onsubmit="return check_action()">
 <input type="hidden" value="true" name="checkSubmitted"/>
@@ -277,26 +235,30 @@ if($rows){
 		$i=1;
 		foreach($rows as $key=>$image_info){
 		 //pre($image_info); 
+		 $sel=($image_info['image_path'] ==$fec_image )?' checked="checked"':''; 
 		?>
-		   <div class="col-xs-4 col-sm-4 col-md-4">
-                <input type="checkbox" name="ids[]"  id="checksingle<?=$key?>" value="<?= $image_info['id'] ?>"/>
-				<img src="<?=$image_info['image_path']?>" title="<?=$image_info['image_name']?>" alt="<?=$image_info['image_name']?>"  class="img-thumbnail" width="350"/>  
-				<input  type="text"  class="form-control"  name="image_captions[<?=$image_info['id'] ?>]" value="<?=$image_info['image_caption']?>"/>	
+		   <div class="col-xs-3 col-sm-3 col-md-3">
+		   <div class="img_block">
+                <input type="checkbox" name="ids[]"  id="checksingle<?=$key?>" value="<?= $image_info['id'] ?>"/><em><?=$image_info['image_name'] ?></em>
+				<img src="<?=$image_info['image_path']?>" title="<?=$image_info['image_name']?>" alt="<?=$image_info['image_name']?>"  class="mg-fluid img-thumbnail rounded " title="<?=$image_info['image_name'] ?>"/>  
+				<input  type="text"  class="form-control"  name="image_captions[<?=$image_info['id'] ?>]" value="<?=$image_info['image_caption']?>" placeholder ="Image caption..."/>	
 			    <select  name="slider_images[<?=$image_info['id'] ?>]" class="form-control">
                     <option value="0"<?=($image_info['slider_image'] =="0")?' selected="selected"':''?>>--Select Slide--</option>
                     <option value="1"<?=($image_info['slider_image'] =="1")?' selected="selected"':''?> style="color:green">Home Gallery</option>
-                </select>	
+                </select>
+				<input type="radio" name="fecImage" value="<?=$image_info['image_path']?>"<?=$sel?> required> Album Cover				
+			</div>
 			</div>
 		<?php
-			if($i%3 == 0){echo '</div><div class="row">';}
+			if($i%4 == 0){echo '</div><div class="row">';}
 		$i++;
 		}
 		?>
 </div>
 <div class="clearfix"></div>
 <hr/>
-<div class="rows">
-	<div class="col-xs-12 col-sm-12 col-md-3">
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
 			<p class="pull-right"> 
                 <input type="button" value="Check all" name="" class="btn btn-link" onclick="check_all(<?=($rows)?count($rows): 0 ?>)"/> &nbsp;&nbsp;
                 <input type="button" value="Uncheck" name="" class="btn btn-link" onclick="uncheck_all(<?=($rows)?count($rows): 0 ?>)" /> &nbsp;&nbsp;
@@ -340,6 +302,6 @@ if(isset($pages) && $pages['total_page'] > 1){?>
    
 <?php 
 	}    
-state('up_success','');
-state('up_error','');
 ?>
+</div>
+</div>

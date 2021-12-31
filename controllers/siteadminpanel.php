@@ -4858,6 +4858,65 @@ $data['message'] = "Registration Success. A Confirmation email has been  sent to
 		require(ADMIN_TEMPLATE_STORE.'imagemanager' . DS .'manage_image_category.php');  
 		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/footer.php');	
 	}
+	function addAlbum($params=array()){
+		global $db;
+		if(!$this->user_id){ $this->login();exit; }
+
+		$user_id=$this->user_id;
+		$user_info=getUserInfo($user_id); 
+		//if(!$user_info){die('Not allowed');}
+		$allow_extention=array('jpg','jpeg','png','pdf','docx','doc'); 	
+		//pre($_FILES);pre($_POST);
+
+		if($db->post('doSubmit')){
+			
+			
+			#Assign Form Value
+			$album_title= $this->db->db_prepare_input($this->db->post('album_title'));
+			$description= $this->db->db_prepare_input($this->db->post('description'));
+			$reporter= $this->db->db_prepare_input($this->db->post('reporter'));
+			$album_cats= $this->db->db_prepare_input($this->db->post('album_cats'));			
+			
+			$seo_title=$_POST['seo_title'];
+			$_POST['seo_title']=($seo_title)?$seo_title:makeurl($album_title);
+			
+			
+			#Error Checkup
+			if(!$album_title){
+				$error = "Enter Album Name";
+			}elseif($this->db->checkExists('image_albums',array("album_title" => $album_title))){
+				$error = "This album already Exists";
+			}else{
+			#Insert To DB
+				$_POST['user_id'] = $user_id;	
+				$_POST['cat_id'] =$album_cats;	
+				$album_id= $db->bindPOST('image_albums','album_id');
+				if($album_id){
+					redirect('siteadminpanel/manageAlbumPhotos/?type=image_albums&type_id='.$album_id);
+				}//album_id
+			}//if not error				
+		}//if form submitted
+
+
+		 //SHOW PAGES
+		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/header.php');
+		require(ADMIN_TEMPLATE_STORE.'imagemanager' . DS .'album_add.php');  
+		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/footer.php');		
+	}
+	function manageAlbumPhotos($params=array()){
+		global $db;
+		if(!$this->user_id){ $this->login();exit; }
+
+		$user_id=$this->user_id;
+		//$album_id=$params['0']; 
+		//$album_info=$db->select_single("SELECT * FROM image_albums WHERE album_id='$album_id'");
+
+		//SHOW PAGES
+		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/header.php');
+		require(ADMIN_TEMPLATE_STORE.'imagemanager' . DS .'album_manage_photos.php');  
+		require(ADMIN_GET_TEMPLATE_DIRECTORY.'/footer.php');		
+	}
+	
     function addAlbumList($params=array()){
 		global $db;
 		if(!$this->user_id){ $this->login();exit; }
@@ -5198,7 +5257,7 @@ function photosAlbums($params = array()){
     function popup_imagemanager($params = array()){
 			global $lang,$db,$session;
 		
-			if(!$this->user_id){ $this->login();exit; }
+			//if(!$this->user_id){ $this->login();exit; }
             
 			require(COMMON_TEMPLATES.'header-common.php');
 			require(ADMIN_TEMPLATE_STORE.$this->controller . DS .'popup_imagemanager.php');

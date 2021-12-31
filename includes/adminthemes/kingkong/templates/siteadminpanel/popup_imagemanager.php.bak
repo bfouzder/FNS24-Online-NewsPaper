@@ -5,7 +5,7 @@ $primary_key='id';
 $max_width=1800;
 $max_height=1350;
 
-$type='image_albums';
+$type=trim($db->get_post('type'));
 $type_id=trim($db->get_post('type_id'));
 if(!$type && $type_id){die('Wrong access');}
 $type_info=$db->getRowArray($type,$type_id);
