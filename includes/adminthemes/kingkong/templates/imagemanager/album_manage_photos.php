@@ -64,8 +64,8 @@ if($db->post('checkSubmitted')){
 							$img_info=array();
 							$img_info['id']=$id;	  
 							$img_info['image_caption']=$_POST['image_captions'][$id];	
-                            $img_info['slider_image']=$_POST['slider_images'][$id];  		
-                            $img_info['slider_image']=$_POST['fecImage'][$id];  
+                            $img_info['slider_image']=($_POST['slider_images'][$id])?$_POST['slider_images'][$id]:'0';  		
+                          //  $img_info['slider_image']=$_POST['fecImage'][$id];  
 						
 							$id=$db->bindPOST("images","id", $img_info);   
 							if($fecImage){
@@ -79,7 +79,7 @@ if($db->post('checkSubmitted')){
 							$img_info=array();
 							$img_info['id']=$id;	  
 							$img_info['image_caption']=$_POST['image_captions'][$id];	
-                            $img_info['slider_image']=$_POST['slider_images'][$id];  		
+                            $img_info['slider_image']=($_POST['slider_images'][$id])?$_POST['slider_images'][$id]:'0';  		
 							$id=$db->bindPOST("images","id", $img_info);                                
 							break;								
   	         }//switch	
