@@ -299,12 +299,13 @@ function ar_showSliderVideos($limit = 40){
 	if($youtube_videos){
 		$html = '<div style="display:none;margin:0 auto;" class="html5gallery" data-skin="light" data-width="480" data-height="272" data-resizemode="fill">';
 		foreach ($youtube_videos as $data){
+           // pre($data);
 			$video_id=$data['video_id'];
 			$video_title=$data['video_title'];
 			$channelId=$data['channelId'];
 			$publishedAt=$data['publishedAt'];
 			$video_description=$data['video_description'];
-			$video_thumbnails_default=$data['video_thumbnails_default'];
+			$video_thumbnails_default=$data['video_thumbnails'];
 			$video_embeded=$data['video_embeded'];
 			$html .='<a href="http://www.youtube.com/embed/'.$video_id.'"><img src="http://img.youtube.com/vi/'.$video_id.'/2.jpg" alt="'.$video_title.'"></a>';
 		}
