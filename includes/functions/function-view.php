@@ -254,7 +254,8 @@ function ar_showTop_16_News($position=16, $limit=16){
             $news_excerpt= trunc_words($news_content,40);
             $news_Writers= $news_info['Writers'];	
             $news_Initial= $news_info['Initial'];
-            $news_pub_date=ar_FormatDateEn2Bn($news_info["DateTimeInserted"],'j F, Y, g:i a');
+            #$news_pub_date=ar_FormatDateEn2Bn($news_info["DateTimeInserted"],'j F, Y, g:i a');
+            $news_pub_date=ar_FormatDateEn2Bn($news_info["date_added"],'j F, Y, g:i a');
             $news_article_url= __bn_getArticleURL($news_info);	 
              
             /* $html .='<div class="col-xs-12 col-sm-4 col-md-3">
@@ -290,6 +291,7 @@ function ar_showTop_4_News($position=4, $image_width=145,$image_height=100){
     $news=ar_getTopNewsByPosition($position);
     if($news){
         foreach($news as $news_info){
+          //  pre($news_info);
             $news_ID= $news_info['news_id'];	
             $news_CategoryID= $news_info['cat_id'];	
             $news_title= $news_info['news_title'];
@@ -300,7 +302,8 @@ function ar_showTop_4_News($position=4, $image_width=145,$image_height=100){
             $news_excerpt= trunc_words($news_content,40);
             $news_Writers= $news_info['Writers'];	
             $news_Initial= $news_info['Initial'];
-            $news_pub_date=ar_FormatDateEn2Bn($news_info["DateTimeInserted"],'j F, Y, g:i a');
+            //$news_pub_date=ar_FormatDateEn2Bn($news_info["DateTimeInserted"],'j F, Y, g:i a');
+            $news_pub_date=ar_FormatDateEn2Bn($news_info["date_added"],'j F, Y, g:i a');
             $news_article_url= __bn_getArticleURL($news_info);	 
              
             $html .='<div class="col-xs-12 col-sm-6 col-md-3">

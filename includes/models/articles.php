@@ -5,8 +5,12 @@ function __bn_getArticleURL($news_article_info){
 	$news_article_title= $news_article_info['news_title'];
 	$news_article_title= make_seo_bangla($news_article_title);
 	$EncryptedValue= $news_article_info['EncryptedValue'];
-	$url= SCRIPT_URL.'article/'.$news_article_ID.'/'.$news_article_title.'/'.$EncryptedValue;
-
+    if(in_array($news_article_info['cat_id'],array(20,23,24,25) )){
+        $url= SCRIPT_URL.'book/'.$news_article_ID.'/'.$news_article_title.'/'.$EncryptedValue;
+    }else{
+        $url= SCRIPT_URL.'article/'.$news_article_ID.'/'.$news_article_title.'/'.$EncryptedValue;
+    }
+	
 	return $url;
 }
 function __bn_getCatURL($bn_cat_info){

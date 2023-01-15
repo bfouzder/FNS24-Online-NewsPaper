@@ -577,7 +577,7 @@
     					$upload_dir = IMAGE_DIR.'zone/';
     				    $upload_url = IMAGE_URL.'zone/';
     					
-    				//pre($_POST);exit;
+    			//	pre($_POST);//exit;
     					
                 		$entry_id=$db->bindPOST($tableName, $primaryKey);
                         $zone_id=($action_id)?$action_id:$entry_id;
@@ -593,14 +593,23 @@
         						   if(in_array($file_ext,$allow_extention)){
         							   $upload_to=$upload_dir. $new_file_name;
         							   $image_url=$upload_url. $new_file_name;
+        							    $up_img_sql="UPDATE $tableName SET `$file_field_name`='$image_url' WHERE $primaryKey='$zone_id'";
         								if(@move_uploaded_file($file_tmp_name, $upload_to)){
-        								    $db->edit("UPDATE $tableName SET `$file_field_name`='$image_url' WHERE $primaryKey='$zone_id'");
+        								   
+        								    if($db->update($up_img_sql)){
+        								        echo "successfully updated the image";
+        								    }else{
+        								        echo "Failed to update";
+        								    }
+        								}else{
+        								   echo "Failed: ";
         								}
         							  }
         							}//if file name
         						}//	foreach file
         						
         					}//if files   
+        				//	redirect($redirect_url);   
                         }//if news_id
                         
                 	   if(!$get_action){
@@ -627,7 +636,9 @@
                                 break;
                             
                            case 'edit':
+                               //echo "SELECT * FROM ".$tableName." where $primaryKey=".$action_id;
                                 $edit = $db->select_single("SELECT * FROM ".$tableName." where $primaryKey=".$action_id);
+                                //pre($edit);
                             break;	  
                             case 'delete':
                                 $sql = "DELETE FROM $tableName WHERE $primaryKey='$action_id'";
@@ -1002,6 +1013,305 @@ function manageTempNews($params=array()){
 		require(ADMIN_GET_TEMPLATE_DIRECTORY. DS .'footer.php'); 
        
 	}
+
+    function manageBooks($params=array()){
+			global $db, $session;      
+            	if(!$this->user_id){ $this->login();exit; }
+        #Assign Basic Table Info 
+            $tableName='all_news';
+            $primaryKey='news_id';
+            $page = $db->get_post('page');
+            $redirect_url ="siteadminpanel/manageBooks/";
+            $link ="siteadminpanel/manageBooks/?";
+            $doaction=$db->get('doaction');
+           	$allow_extention=array('jpg','jpeg','png','pdf'); 	
+                     
+            $get_action = $db->get('action');
+        	$action_id = $db->get('action_id');
+            		
+            	
+            	#add/edit Table data
+            	if($db->post('formSubmitted')){
+            		
+					$upload_dir = IMAGE_DIR;
+					$upload_url = IMAGE_URL;
+
+					$upload_dir_book = RESOURCE_STORE.'books/';
+					$upload_url_book = WWW_RESOURCE_STORE.'books/';
+					
+			        $top_news=$db->post('top_news');
+			        $_POST['top_news']=($top_news)?$top_news:'0'; 
+                    $_POST['DistrictID']=($_POST['DistrictID'])?$_POST['DistrictID']:'0'; 
+					$_POST['DateTimeUpdated']=date('Y-m-d H:i:s');
+					
+					if($action_id){
+					  $_POST['updated_by']=$this->user_id;  //from table admin
+					}else{
+					  $_POST['uploaded_by']=$this->user_id;    
+					}
+					
+            		$entry_id=$db->bindPOST($tableName, $primaryKey);
+                    $news_id=($action_id)?$action_id:$entry_id;
+                    if($news_id){
+                       // pre($_FILES);
+                       	if($_FILES){
+    						foreach($_FILES as $file_field_name => $file_info){
+    						 if($file_info["name"]){
+    						   $file_name=$file_info["name"];
+    						   $file_tmp_name=$file_info["tmp_name"];
+    						   $file_ext=strtolower(@end(explode(".",$file_name)));
+    						   $new_file_name=$news_id.'_'.$file_field_name.'_'.$file_name;		
+							   if($file_field_name =='book_pdf'){
+								$upload_dir = $upload_dir_book;
+								$upload_url = $upload_url_book;
+							   }
+							   
+    						   if(in_array($file_ext,$allow_extention)){
+    							   $upload_to=$upload_dir. $new_file_name;
+    							   //echo $file_tmp_name .'='. $upload_to;
+                                   $image_url=$upload_url. $new_file_name;
+    								if(@move_uploaded_file($file_tmp_name, $upload_to)){
+    								    //echo "UPDATE $tableName SET `$file_field_name`='$image_url' WHERE $primaryKey='$news_id'";
+    									$db->edit("UPDATE $tableName SET `$file_field_name`='$image_url' WHERE $primaryKey='$news_id'");
+    								}
+    							  }
+    							}//if file name
+    						}//	foreach file
+    						
+    					}//if files   
+                    }//if news_id
+                    
+            		if($get_action!='edit'){
+						 $session->flashmessage('successMessage','Book Added successfully.'. $news_id);
+						redirect($redirect_url.'?doaction=add');	
+					}
+            	    
+            	}
+              
+                        	
+                #get/post action for list data 
+                if($get_action)
+                {
+            		//echo '$get_action'.$get_action;
+            	    switch($get_action)
+            	    {
+                        case 'approve':
+                            echo $sql = "UPDATE $tableName SET status = '1' WHERE $primaryKey='$action_id'";
+                            $db->update($sql);
+                            break;
+                        case 'disapprove':
+                            $sql = "UPDATE $tableName SET status = '0' WHERE $primaryKey='$action_id'";
+                            $db->update($sql);
+                            break;
+                        
+                       case 'edit':
+					       $doaction=true; 
+                            $edit = $db->select_single("SELECT * FROM ".$tableName." where $primaryKey=".$action_id);
+                        break;	  
+                        case 'delete':
+                            $sql = "DELETE FROM $tableName WHERE $primaryKey='$action_id'";
+                            $db->delete($sql);
+                        break;	                 
+            
+            	    }
+                    
+                    if($get_action!='edit')
+            	    redirect($redirect_url);
+                }
+            	
+            	 if($db->post('formSubmittedROWS'))   ////////////manage post data
+            	  {
+            	  	
+            	   $ids = $db->post('action_ids');
+            	   $post_action = $db->post('action');
+            	   
+            		
+            	  	if($ids)
+            	  	{
+            			//	echo '$post_action'.$post_action;
+            	  		foreach($ids as $action_id)
+            	  		{
+            	  		    switch($post_action)
+            	  	        {
+            			  		case 'approve':
+            			    	                $sql = "UPDATE $tableName SET status = '1' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+            			  	   	case 'disapprove':
+            			    	                $sql = "UPDATE $tableName SET status = '0' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+                                                
+                                case 'add_top_16':
+            			    	                $sql = "UPDATE $tableName SET top_news = '16' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+            			  	   	case 'remove_top_16':
+            			    	                $sql = "UPDATE $tableName SET top_news = '0' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+												
+                                case 'add_top_4':
+            			    	                $sql = "UPDATE $tableName SET top_news = '4' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+            			  	   	case 'remove_top_4':
+            			    	                $sql = "UPDATE $tableName SET top_news = '0' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+                                                
+                                                
+                                case 'add_top_3':
+            			    	                $sql = "UPDATE $tableName SET top_news = '3' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+            			  	   	case 'remove_top_3':
+            			    	                $sql = "UPDATE $tableName SET top_news = '0' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+                               
+                                 case 'add_top_2':
+            			    	                $sql = "UPDATE $tableName SET top_news = '2' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+            			  	   	case 'remove_top_2':
+            			    	                $sql = "UPDATE $tableName SET top_news = '0' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;                                   
+                                
+                                 case 'add_to_footer_news':
+            			    	                $sql = "UPDATE $tableName SET footer_news = '1' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+            			  	   	case 'remove_from_footer_news':
+            			    	                $sql = "UPDATE $tableName SET footer_news = '0' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break; 
+                                case 'add_to_slider':
+            			    	                $sql = "UPDATE $tableName SET slider_news = '1' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+            			  	   	case 'remove_from_slider':
+            			    	                $sql = "UPDATE $tableName SET slider_news = '0' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;  
+                                case 'add_to_breaking':
+            			    	                $sql = "UPDATE $tableName SET breaking = '1' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+            			  	   	case 'remove_from_breaking':
+            			    	                $sql = "UPDATE $tableName SET breaking = '0' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;     
+                                                                                                                                                                  
+            			  	   case 'add_to_spot_light':
+            			    	                $sql = "UPDATE $tableName SET spot_light = '1' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;
+                                                
+            			  	   	case 'remove_from_spot_light':
+            			    	                $sql = "UPDATE $tableName SET spot_light = '0' WHERE $primaryKey='$action_id'";
+            			  		                $db->edit($sql);
+            			  		                break;     
+                                                                  
+            		            case 'delete':
+                            					$sql = "DELETE FROM $tableName WHERE $primaryKey='$action_id'";
+                            					//$db->delete($sql);    
+            			  		                break;            
+            	  	         }	
+            	  		 }
+            	  	  }
+            		
+                  }
+            	
+            	
+             
+               #query for list of data 
+           $rows = array();     
+           if(! $doaction){
+			   
+             	$sql_query="SELECT * FROM $tableName WHERE $primaryKey > 1 ";
+              
+               if($db->get_post('catID')){
+               	 $catID=$db->get_post('catID');
+                $sql_query.="AND cat_id='$catID'";
+                $link .="catID=$catID&";
+               }else{
+				$sql_query.="AND cat_id IN(20,23,24,25)";
+			   }
+               
+				if($db->get_post('uploaderID')){
+               	 $uploaderID=$db->get_post('uploaderID');
+                $sql_query.="AND uploaded_by='$uploaderID'";
+                $link .="uploaderID=$uploaderID&";
+               }
+			   
+                #for search
+            	if($db->get_post('q')){
+            		$q=$db->get_post('q');
+            		if(is_numeric($q)){
+            			$sql_query .= "  AND $primaryKey='$q' ";
+            		}elseif(is_string($q)){
+            				$sql_query .= "  AND news_title LIKE '%".$db->db_input($q)."%' OR news_details LIKE '%".$db->db_input($q)."%' ";
+            		}
+            
+                    $link .="sq=$q&";
+            	}
+            	
+                $filterBy=$db->get('filterBy');
+                if($filterBy){
+                     $link .="filterBy=$filterBy&";
+                    if($filterBy == 'top_news'){
+                        $position=$db->get('position');
+                        	$sql_query .=" AND top_news ='$position' ";
+                         $link .="position=$position&";	
+                    }elseif($filterBy == 'spot_light'){
+                        $sql_query .=" AND spot_light ='1' ";
+                          
+                    }elseif($filterBy == 'footer_news'){
+                         $sql_query .=" AND footer_news ='1' ";
+                    }elseif($filterBy == 'breaking'){
+                        $sql_query .=" AND breaking ='1' ";
+                    }elseif($filterBy == 'slider_news'){
+                        $sql_query .=" AND slider_news ='1' "; 
+                    }elseif($filterBy == 'footer_news'){
+                        $sql_query .=" AND footer_news !='0' ";
+                    }
+                }else{
+                
+                    if(!$db->get_post('q')){
+                      //  $sql_query .=" AND news_id >150000 ";  
+                      
+                     //$total_query= str_replace('*', 'count(news_id) as total_data_count',$sql_query);
+                    }
+                
+                } 
+                
+               // echo 'ffff'. $total_query;
+                $total_query= str_replace('*', 'count(news_id) as total_data_count',$sql_query);
+                $total_data = $db->select_single($total_query);
+                $total_data_count=$total_data['total_data_count'];
+               // echo '<br/>$total_data_count ='.$total_data_count;
+               // echo $sql_query;
+                //exit;
+                                       
+            	$pages = make_pagination($sql_query,$page,10, $total_data_count);
+                 //pre($pages);	 
+            	$sql_query .= " ORDER BY $primaryKey DESC";
+            	$sql_query .= " LIMIT ".$pages['start_form'].",".$pages['per_page'];
+            //	echo $sql_query;
+            	$rows = $db->select($sql_query);
+            
+		   }
+       
+       
+       
+	  	//SHOW PAGES
+		require(ADMIN_GET_TEMPLATE_DIRECTORY. DS .'header.php');
+		require(ADMIN_TEMPLATE_STORE.$this->controller . DS .'manage_books_home.php');  
+		require(ADMIN_GET_TEMPLATE_DIRECTORY. DS .'footer.php'); 
+		}
+
     	function manageNews($params=array()){
 	   		global $db, $session;      
             	if(!$this->user_id){ $this->login();exit; }

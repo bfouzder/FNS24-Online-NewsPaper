@@ -46,6 +46,7 @@ class home{
 		require(TEMPLATE_STORE.$this->controller . DS .'home.php');  
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
+
 	function newscategory($params = array()){
 		global $lang,$db,$session;
    	
@@ -71,9 +72,14 @@ class home{
 	//	pre($news_cat_rows);
 	//	echo $sql_query;
 	//pre($pages);
-	
+	//pre($news_cat_info);
+	$template='template-category.php';
+	if($news_cat_info['CategoryID'] ==20 || $news_cat_info['parent'] ==20){
+		$template='template-book-home.php';
+	}
+
         require(GET_TEMPLATE_DIRECTORY.'/header.php');
-		require(TEMPLATE_STORE.$this->controller . DS .'template-category.php');  
+		require(TEMPLATE_STORE.$this->controller . DS .$template);  
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
 	
@@ -536,11 +542,15 @@ class home{
 		$meta_author=($news_article_Writers)?$news_article_Writers:'নিজস্ব প্রতিবেদক  ';
         //pre($news_cat_info);
                 
-	        
-                
+	    
+		
+		$template='article_detail.php';
+		if($news_cat_info['CategoryID'] ==20 || $news_cat_info['parent'] ==20){
+			$template='book_detail.php';
+		}                
 		
         require(GET_TEMPLATE_DIRECTORY.'/header.php');
-		require(TEMPLATE_STORE.$this->controller . DS .'article_detail.php');  
+		require(TEMPLATE_STORE.$this->controller . DS .$template);  
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
 	
@@ -707,6 +717,16 @@ class home{
 		require(COMMON_TEMPLATES.'header-common.php');
 		require(TEMPLATE_STORE.$this->controller . DS .'script_log_detail.php');
 		require(COMMON_TEMPLATES.'footer-common.php');
-	}  
+	}
+	
+	
+
+	function book($params = array()){
+		$this->article($params);
+	}
+	function books($params = array()){
+		$this->newscategory($params);
+	}
+
 }
 ?>

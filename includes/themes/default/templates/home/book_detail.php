@@ -16,7 +16,8 @@
 			<h2 class="nav-page-title"><?=$news_cat_name?></h2>
 			<div class="page-breadcrumb clearfix">
 			    <ol class="breadcrumb">
-        		   <li><a href="<?=SCRIPT_URL?>"><i class="fa fa-home"></i> প্রচ্ছদ</a></li>
+        		   <li><a href="<?=SCRIPT_URL?>"><i class="fa fa-home"></i> প্রচ্ছদ </a></li>
+        		   <li><a href="<?=SCRIPT_URL?>books/20/বই/"><i class="fa fa-book"></i> বই</a></li>
         		   <li class="active"><a href="<?=$news_cat_url?>"><?=$news_cat_name?></a></li>
         
         		 </ol>
@@ -48,25 +49,49 @@
 			</div>
 		</div>
 	</div>
-	<?php if($news_article_image): ?>
-	<div class="news_photo_block">
-		<img src="<?=$news_article_image?>" alt="image-here"/>
-		<div class="caption"><?php echo $news_article_image_caption; ?></div>
-	</div>
-	<?php endif;?>	
-	
-	<?=str_replace('<p style="text-align: justify;">&nbsp;</p>', '', $news_article_content)?>
 
-<?php if($news_article_info['news_video']){
-$news_video_url= $news_article_info['news_video'];
-$news_video_url= str_replace('watch?v=','embed/',$news_video_url);
-?>
-	<div class="video-block">
-		<div class="embed-responsive embed-responsive-16by9">
-			<iframe class="embed-responsive-item" src="<?=$news_video_url?>"></iframe>
-		</div>
-	</div>
-<?php } ?>	
+    <div class="row">
+			<div class="col-xs-12 col-md-5">
+                <?php
+               $book_pdf= isset($news_article_info['book_pdf'])?$news_article_info['book_pdf']:'#';
+               $book_summary= isset($news_article_info['book_summary'])?$news_article_info['book_summary']:'';
+                
+                if($news_article_image): ?>
+                    <div class="news_photo_block">
+                        <img src="<?=$news_article_image?>" alt="image-here" width=""/>
+                        <div class="caption"><?php echo $news_article_image_caption; ?></div>
+                    </div>
+                <?php endif;?>	
+
+                <a href="javascript:void(0)" onclick="jQuery('#book_content').toggle();" class="btn btn-success"><i class="fa fa-book"></i>  বইটি পড়তে এখানে ক্লিক করুন</a>
+                <?php if($book_pdf){ ?>
+                <a href="<?=$book_pdf?>" class="btn btn-danger" target="_blank"><i class="fa fa-file"></i> বইটি ডাউনলোড করুন</a>
+                <?php }  ?>
+            </div> 
+            <div class="col-xs-12 col-md-7">
+                <h2><?php echo $news_article_sub_title ; ?></h2>
+                <h3><?php echo $news_article_Writers; ?></h3>
+                <p><?php echo  $book_summary; ?></p>
+            </div> 
+    </div> 
+
+	
+	<div id="book_content" style="display:none;margin-top:50px;">
+        <?=str_replace('<p style="text-align: justify;">&nbsp;</p>', '', $news_article_content)?>
+        <?php if($news_article_info['news_video']){
+        $news_video_url= $news_article_info['news_video'];
+        $news_video_url= str_replace('watch?v=','embed/',$news_video_url);
+        ?>
+            <div class="video-block">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="<?=$news_video_url?>"></iframe>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+	
+
+
 	<div class="clearfix"></div>
 	<div class="sharethis-inline-reaction-buttons"></div>
 	<div class="clearfix"></div>

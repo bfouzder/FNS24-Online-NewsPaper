@@ -34,6 +34,14 @@ $pending_total =  0;
                     </ul>
                     
                   </li>
+
+                  <li><a><i class="fa fa-book"></i> Manage Books<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="<?=ADMIN_URL?>manageBooks/?doaction=add">Add New Book</a></li>    					 
+                      <li><a href="<?=ADMIN_URL?>manageBooks/">All Books</a></li>
+                    </ul>
+                  </li> 
+
 				    <li><a><i class="fa fa-laptop"></i> Manage Category <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
             					  <li><a href="<?=ADMIN_URL?>manageNewsCategory/?doaction=add" >Add Category</a></li> 
