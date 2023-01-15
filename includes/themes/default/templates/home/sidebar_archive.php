@@ -6,20 +6,21 @@
 $todayDate=($todayDate)?$todayDate:todayDate();
 //echo 'today='.$todayDate;
 /* Set the date */
-$date = strtotime($todayDate);
+$date = @strtotime($todayDate);
 
 $day = date('d', $date);
 $month = date('m', $date);
 $year = date('Y', $date);
 $firstDay = mktime(0,0,0,$month, 1, $year);
-$title = strftime('%B', $firstDay);
+#$title = strftime('%B', $firstDay);
 $dayOfWeek = date('D', $firstDay);
 $daysInMonth = cal_days_in_month(0, $month, $year);
 /* Get the name of the week days */
 $timestamp = strtotime('next Sunday');
 $weekDays = array();
 for ($i = 0; $i < 7; $i++) {
-$weekDays[] = strftime('%a', $timestamp);
+#$weekDays[] = strftime('%a', $timestamp);
+$weekDays[] = date('D', $timestamp);
 $timestamp = strtotime('+1 day', $timestamp);
 }
 $blank = date('w', strtotime("{$year}-{$month}-01"));

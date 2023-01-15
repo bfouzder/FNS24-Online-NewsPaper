@@ -11,12 +11,11 @@ function __bn_getPhotoURL($galRow){
 }
 function getNewsFecImageURL($news_article_info, $image_type='thumb'){
  global $db;
- 
  $image_upload_url= 'http://www.fns24.com/images/imgAll/';
-$ImageSMPath =($news_article_info['ImageSMPath'])?$image_upload_url.$news_article_info['ImageSMPath']:'';
+$ImageSMPath =isset($news_article_info['ImageSMPath'])?$image_upload_url.$news_article_info['ImageSMPath']:'';
 $image_thumb_url=($news_article_info['image_url'])?$news_article_info['image_url'] : $ImageSMPath;  
 
-$ImageSMPath =($news_article_info['ImageBGPath'])?$image_upload_url.$news_article_info['ImageBGPath']:'';
+$ImageSMPath =isset($news_article_info['ImageBGPath'])?$image_upload_url.$news_article_info['ImageBGPath']:'';
 $image_big_url=($news_article_info['big_image_url'])?$news_article_info['big_image_url'] : $ImageSMPath;
 $DistrictID=$news_article_info['DistrictID'];
  if($news_article_info['image_url'] || $news_article_info['ImageSMPath']){
