@@ -1,0 +1,46 @@
+Your credential is given below to access SSLCOMMERZ panel.
+login Id	fns24@ssl
+Password	0Ibw4Ryg
+NewPass: Fns@SSL#2022!!
+	
+SSLCOMMERZ Panel	https://merchant.sslcommerz.com/
+
+
+===================================================
+
+ACCESS CREDENTIALS
+Merchant URL	https://merchant.sslcommerz.com/
+(User Credentials given in different email)
+Merchant Name	Fair News Service Ltd.
+ 	
+Store Information	
+Store Name	fns24
+Transaction Session API	      https://securepay.sslcommerz.com/gwprocess/v4/api.php
+Validation URL (By SOAP)	https://securepay.sslcommerz.com/validator/api/validationserverAPI.php?wsdl
+Validation URL (By REST)	https://securepay.sslcommerz.com/validator/api/validationserverAPI.php
+ 	
+Store ID:	fns24live (It is required at redirection and payment validation)
+Store Password:	62F0EF43A34FE13520 (It is required at payment validation.Note: No need to change the store password.)
+Registered Store URL:	https://www.fns24.com
+ 	
+Developer Page	https://developer.sslcommerz.com/
+
+======================================================
+
+
+Your information at our system
+Merchant Id	fns24live
+Merchant Name	Fair News Service Ltd.
+Name	Jahangir Alam Babu
+Mailing Address	24/D Topkhana Road, Aysha Akter Bhaban, 10 Floor, Segunbagicha, Dhaka-1000.
+Email	fnsbangla@gmail.com
+Mobile	01755739855
+
+Technical Support
+Email	integration@sslcommerz.com
+Mobile	+88096122 26969
+
+Account Manager (Business Department)
+Name	Maisha. Meheraz
+Email	maisha.meheraz@sslcommerz.com
+Mobile	01705785602

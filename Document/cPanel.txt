@@ -1,0 +1,243 @@
+https://vps55114.inmotionhosting.com:2087/
+
+
+https://vps55114.inmotionhosting.com:2083
+User: fns24bangla
+pass: M*zr9#Tmp2022
+
+
+
+
+
+5th Oct 2022: Chat history 
+Domain: fns24.com
+What product are you contacting us about? VPS Hosting
+What can we help you with today? Technical Support
+What type of technical support do you need? Account Management Panel (AMP) Login
+
+I can't login to my account
+Chat started
+Hi
+hi
+William K. joined the chat
+William K.
+Hello Jahangir Alam Babu, my name is William K. Thanks for contacting us today!
+Please allow me 2-5 minutes to pull up your account.
+Thanks for holding.
+Can you please verify your account with the last 4 digits of the card on file?
+Are you here?
+avatar
+Last 4 digit : 7785
+William K.
+Thank you for verifying your account.
+avatar
+from last 2 days my site is forbidden
+even I can;t login to my account 
+William K.
+Your account is currently suspended due to a copyright claim.  You will need to respond to the email sent by our legal team to proceed.
+avatar
+i have already submitted this form 
+https://www.inmotionhosting.com/legal/dmca-counter-notice/
+with the fowwling message: 
+
+Sorry, we didn't check this Copywrite mail in time, now we are not able to log in to our site to delete the article. 
+we have conducted the claim owner and found both the address and the phone number which are not valid. 
+The article was posted by one of our providers we have already notified him. 
+We promise we will delete this as soon as I get access to my site.
+William K.
+Just to confirm you still need to remove the offending content?
+avatar
+yes
+William K.
+Ok, let me get you over to my support team as they can assist with that.  Please hold.
+avatar
+okay 
+William K. left the chat
+Jeremy Sta. joined the chat
+Jeremy Sta.
+Hello Jahangir Alam Babu, my name is Jeremy Sta. Thanks for contacting us today!
+avatar
+our account is currently suspended due to a copyright claim.  You will need to respond to the email sent by our legal team to proceed.
+avatar
+i have already submitted this form 
+https://www.inmotionhosting.com/legal/dmca-counter-notice/
+with the fowwling message: 
+
+Sorry, we didn't check this Copywrite mail in time, now we are not able to log in to our site to delete the article. 
+we have conducted the claim owner and found both the address and the phone number which are not valid. 
+The article was posted by one of our providers we have already notified him. 
+We promise we will delete this as soon as I get access to my site.
+William K.
+Just to confirm you still need to remove the offending content?
+avatar
+yes
+William K.
+Ok, let me get you over to my support team as they can assist with that.  Please hold.
+Jeremy Sta.
+I can definitely check into this for you
+Is this a WordPress site that the content needs to be removed from?
+avatar
+no it's not a wp site 
+Jeremy Sta.
+what was the site built with?
+avatar
+Custom build
+php mvc 
+http://fns24.com/siteadminpanel
+User: fnsadmim
+Pass: fns@admin
+Jeremy Sta.
+if you can provide me your IPv4 Address from whatismyipaddress.com I can see about getting your IP whitelisted so you an login and remove the necessary content
+avatar
+ 103.106.239.238
+Jeremy Sta.
+Thank you. Allow me 5-10 minutes please
+avatar
+okay
+Jeremy Sta.
+Thank you for your patience
+avatar
+Domain: fns24.com
+What product are you contacting us about? VPS Hosting
+What can we help you with today? Technical Support
+What type of technical support do you need? Account Management Panel (AMP) Login
+
+I can't login to my account
+Hi
+hi
+Last 4 digit : 7785
+from last 2 days my site is forbidden
+even I can;t login to my account
+i have already submitted this form 
+https://www.inmotionhosting.com/legal/dmca-counter-notice/
+with the fowwling message: 
+
+Sorry, we didn't check this Copywrite mail in time, now we are not able to log in to our site to delete the article. 
+we have conducted the claim owner and found both the address and the phone number which are not valid. 
+The article was posted by one of our providers we have already notified him. 
+We promise we will delete this as soon as I get access to my site.
+yes
+okay
+our account is currently suspended due to a copyright claim.  You will need to respond to the email sent by our legal team to proceed.
+avatar
+i have already submitted this form 
+https://www.inmotionhosting.com/legal/dmca-counter-notice/
+with the fowwling message: 
+
+Sorry, we didn't check this Copywrite mail in time, now we are not able to log in to our site to delete the article. 
+we have conducted the claim owner and found both the address and the phone number which are not valid. 
+The article was posted by one of our providers we have already notified him. 
+We promise we will delete this as soon as I get access to my site.
+William K.
+Just to confirm you still need to remove the offending content?
+avatar
+yes
+William K.
+Ok, let me get you over to my support team as they can assist with that.  Please hold.
+no it's not a wp site
+Custom build
+php mvc
+http://fns24.com/siteadminpanel
+User: fnsadmim
+Pass: fns@admin
+103.106.239.238
+okay
+Jeremy Sta.
+You should be able to access and login to your site
+avatar
+let me try 
+Internal Server Error
+
+The server encountered an internal error or misconfiguration and was unable to complete your request.
+
+Please contact the server administrator at webmaster@fns24.com to inform them of the time this error occurred, and the actions you performed just before this error.
+
+More information about this error may be available in the server error log.
+
+Additionally, a 500 Internal Server Error error was encountered while trying to use an ErrorDocument to handle the request.
+u guys just allow me login my amp page 
+so that i can delete the content from database through cpanel-> phpmyadmin 
+Jeremy Sta.
+Unfortunately until the suspension is removed AMP access will be unavailable
+avatar
+okay then remove 500 error
+htaccess need to be active for this site I mean mod-rewrite
+Jeremy Sta.
+do you have the root password for WHM? or the password for the cPanel directly?
+avatar
+no 
+i just have the amp login credentials
+Login ID: fnsbangla@gmail.com
+Password: V&4qM*zr9
+you guys can rest and give me the roor ot cpanel password 
+please loigin to my account and change the cpanel password for fns24.com and give it to me 
+Jeremy Sta.
+I cant login to your AMP account either with the suspension. I'm working on getting you a password to login for cPanel/WHM
+avatar
+thanks
+Jeremy Sta.
+are you able to see this login screen?  
+  
+https://vps55114.inmotionhosting.com:2087/
+avatar
+yes
+Jeremy Sta.
+Ok. I'm waiting for an admin to get us a password since the cPanel account is owned by root I dont have access to reset your password like I normally would
+Allow us 5-10 minutes so we can get the login credentials.
+avatar
+after getting the access and remove the content , how long it would take the time to my site open for all 
+Jeremy Sta.
+You'll need to reply to the email from our legal team so they can review the information and ensure everything has been removed as they are the only department that can lift the suspension
+and they only work through email
+avatar
+okay 
+Jeremy Sta.
+I need you to create a password and use this link to send it to me  
+  
+https://passencrypt.inmotionhosting.com/
+avatar
+okay wait a min 
+https://passencrypt.inmotionhosting.com/fetch/a8b1e3a049a1b2bbad8e680b690f7fe50f5b4787d9e6c9d04c2ff499a708f691?k=5eafc8d8450925352472c0507c6b991aaa8d3a548fd190bf83adb1a58c55daef
+Jeremy Sta.
+Thank you.
+avatar
+M*zr9#Tmp2022
+Jeremy Sta.
+https://vps55114.inmotionhosting.com:2087/
+
+User: fns24bangla
+Password: The password you created
+You can access the database through phpMyAdmin once you've logge din
+avatar
+showing login invalid 
+hello 
+Jeremy Sta.
+checking
+Sorry, use this URL. It has the correct port number  
+  
+ 
+https://vps55114.inmotionhosting.com:2083/
+avatar
+now i can login
+Jeremy Sta.
+Perfect. So once you've removed the items you need removed reply to the suspension email you received
+Is there anything else I can assist you with at this time?
+avatar
+the news has been deleted from the database
+now what should i do 
+Jeremy Sta.
+reply to the email about your account suspension
+avatar
+should i mention that i have removed that content on that mail 
+Jeremy Sta.
+Legal will review the account and work with you from there
+Yes you need to mention that
+avatar
+okay
+thanks 
+Jeremy Sta.
+Thank you for contacting us Jahangir Alam Babu . If you have any further questions, please do not hesitate to contact us as we are here 24/7. You should have an option to leave feedback on this chat in the chat window. Have a great day.
+avatar
+Jeremy Sta. left the chat
+Chat ended
+Type a message here...
