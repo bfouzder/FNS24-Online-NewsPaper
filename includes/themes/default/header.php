@@ -59,12 +59,13 @@ $dtTimeDifference=((6*60)*60);
 
 <?php 
 
-	$active_sel_2=(strpos(CURRENT_URL,'/district/') !==false)?' active':(strpos(CURRENT_URL,'/division/') !==false)?' active':'';
+	$active_sel_2_1=(strpos(CURRENT_URL,'/district/') !==false)?' active':'';
+	$active_sel_2_2=(strpos(CURRENT_URL,'/division/') !==false)?' active':'';
+	$active_sel_2=$active_sel_2_1.$active_sel_2_2;
 	if(ar_isMobile()){
-?>
- <li><a href="<?=SCRIPT_URL?>alldistrictnews/">জেলার সংবাদ</a></li>
-
-<?php }else{ ?>
+	?>
+	 <li><a href="<?=SCRIPT_URL?>alldistrictnews/">জেলার সংবাদ</a></li>
+    <?php }else{ ?>
 			<li class="dropdown<?=$active_sel_2?>" >
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">জেলার সংবাদ <span class="caret"></span></a>
 				<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
