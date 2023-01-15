@@ -34,7 +34,7 @@ class home{
 		$this->is_home =true;
 		if($params){
 			$page_name=trim($params['0']);		
-			$page_info=$this->db->getRowArray("pagemanager",array("page_name" =>$page_name));
+			$page_info=$this->db->getRowArray("pagemanager", array("page_name" =>$page_name));
 			if($page_info){
 				$this->page($params);exit;
 			}
@@ -105,7 +105,8 @@ class home{
 	
 	
         require(GET_TEMPLATE_DIRECTORY.'/header.php');
-		require(TEMPLATE_STORE.$this->controller . DS .'template-dist-news.php');  
+	//	require(TEMPLATE_STORE.$this->controller . DS .'template-dist-news.php');  
+		require(TEMPLATE_STORE.$this->controller . DS .'template-archive-news.php');  
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
 	function mofossol($params = array()){
@@ -126,7 +127,7 @@ class home{
 		$bread_cum_list .= '<li class="active">'. $news_top_title.'</li>';
 		
 		#News by category
-		$sql_query="SELECT * FROM all_news WHERE status=1 AND DistrictID BETWEEN 1 and 66 ORDER BY news_id DESC Limit 200 "; 
+		$sql_query="SELECT * FROM all_news WHERE status=1 AND DistrictID BETWEEN 2 and 66 ORDER BY news_id DESC Limit 200 "; 
 	    /*$sql_query="SELECT * FROM all_news WHERE status=1 AND DistrictID BETWEEN 1 and 66"; 
 		$pages = make_pagination($sql_query,$page,$page_limit);
 		$sql_query .= " LIMIT ".$pages['start_form'].",".$pages['per_page'];
@@ -249,7 +250,8 @@ class home{
 			
 			$page_title = 'সর্বশেষ  সংবাদ';	
 			
-			$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 150000 "; 
+			$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 240000 "; 
+			$sql_query="SELECT *FROM `all_news` WHERE date_added >= DATE(NOW()) - INTERVAL 7 DAY AND status=1"; 
 			$pages = make_pagination($sql_query,$page,$page_limit);
 			$sql_query .= " order by `news_id` desc";
 			
@@ -258,14 +260,14 @@ class home{
 			$page_title = 'শীর্ষ সংবাদ ';	
 			
 			$sql_query="SELECT *FROM `all_news` WHERE status=1 AND spot_light = 1 "; 
-			$sql_query="SELECT *FROM `all_news` WHERE cat_id != 14 AND status=1"; //as per mr. saykat 11th may 2019 ; 
+			$sql_query="SELECT *FROM `all_news` WHERE date_added >= DATE(NOW()) - INTERVAL 7 DAY AND status=1 AND spot_light = 1"; 
 			$pages = make_pagination($sql_query,$page,$page_limit);
 			$sql_query .= " order by `news_id` desc";
 			
 		}else{
 			$page_title = 'সর্বশেষ  সংবাদ';
 			
-				$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 150000"; 
+				$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 240000"; 
 				//order by `news_submission_date` desc
 				$pages = make_pagination($sql_query,$page,$page_limit);
 				$sql_query .= " order by `news_id` DESC";
@@ -603,17 +605,19 @@ class home{
 	}
 
 	function page($params=array()){
-		global $lang,$language;
+		global $db,$lang,$language;
 
-		$page_name=($params[0]=='page')?trim($params['1']):trim($params['0']);		
+    
+	$page_name=($params[0]=='page')?trim($params['1']):trim($params['0']);		
 		$page_info=$this->db->getRowArray("pagemanager",array("page_name" =>$page_name));
+	   // pre($params);pre($page_info);exit;
 		if(!$page_info)redirect('page_404');
 
 		$page_id=$page_info['page_id'];
 		
-     
+     //pre($page_info);
 		if(state('pvid')!=$page_id){
-			mysql_query("UPDATE pagemanager SET `viewed` = viewed+1 WHERE page_id=$page_id");
+			$db->edit("UPDATE pagemanager SET `viewed` = viewed+1 WHERE page_id=$page_id");
 			state('pvid',$page_id);
 		}	
 
