@@ -1,4 +1,6 @@
-<?php include('header-common.php')?>
+<?php include('header-common.php');
+$dtTimeDifference=((6*60)*60);
+?>
 <div id="top-block">
   
     <header class="header"><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -17,7 +19,8 @@
                                 <li><a href="<?=SCRIPT_URL?>banglaconverter/" target="_blank">Bangla Converter</a></li>
                                  <li><a href="<?=SCRIPT_URL?>publicnews">Public News</a></li>
                                 <li><a href="http://shop.fns24.com/" target="_blank">News Service</a></li>
-                                 <li><a href="<?=SCRIPT_URL?>newspapers/" target="_blank">Bangladeshi Newspaper</a></li>
+                                 <li><a href="<?=SCRIPT_URL?>payment/" target="_blank" style="color:yellow">Payment</a></li>
+                                  <li><a href="<?=SCRIPT_URL?>newspapers/" target="_blank">Bangladeshi Newspaper</a></li>
                             </ul>
                         </div>
                     </div>
@@ -56,10 +59,7 @@
 
 <?php 
 
-	#$active_sel_2=(strpos(CURRENT_URL,'/district/') !==false)?' active':(strpos(CURRENT_URL,'/division/') !==false)?' active':'';
-	$active_sel_2_1=(strpos(CURRENT_URL,'/district/') !==false)?' active':'';
-	$active_sel_2_2=(strpos(CURRENT_URL,'/division/') !==false)?' active':'';
-	$active_sel_2=$active_sel_2_1.$active_sel_2_2;
+	$active_sel_2=(strpos(CURRENT_URL,'/district/') !==false)?' active':(strpos(CURRENT_URL,'/division/') !==false)?' active':'';
 	if(ar_isMobile()){
 ?>
  <li><a href="<?=SCRIPT_URL?>alldistrictnews/">জেলার সংবাদ</a></li>
@@ -100,37 +100,30 @@
 		<?php } ?>
 			<?php 
 			//$menu_rows =$db->select("SELECT * FROM image_categories WHERE active=1 and cat_id NOT IN (36,38)");
-			$menu_rows =$db->select("SELECT * FROM bn_bas_category WHERE ShowData=1 ORDER BY CategoryID ASC");
+			$menu_rows =$db->select("SELECT * FROM bn_bas_category WHERE ShowData=1 AND CategoryID IN (1,2,3,4,5,6,7,8,10,20,22) ORDER BY CategoryID ASC");
 			if($menu_rows){
-				foreach($menu_rows as $key => $bn_cat_info){	
-				if($key >9) break;
-				$article_cat_url= SCRIPT_URL.'newscategory/'.$bn_cat_info['CategoryID'].'/'.$bn_cat_info['CategoryName'].'/';	
-				$active_sel=(strpos(CURRENT_URL,'/newscategory/'.$bn_cat_info['CategoryID'].'/' ) !==false)?' class="active"':'';
-				echo $album_cats_html ='<li'.$active_sel.'><a href="'.$article_cat_url.'">'.$bn_cat_info['CategoryName'].'</a></li>'."\n";	
+				foreach($menu_rows as $key => $bn_cat_info){
+			
+        				$article_cat_url= SCRIPT_URL.'newscategory/'.$bn_cat_info['CategoryID'].'/'.$bn_cat_info['CategoryName'].'/';	
+        				$active_sel=(strpos(CURRENT_URL,'/newscategory/'.$bn_cat_info['CategoryID'].'/' ) !==false)?' class="active"':'';
+        				echo $album_cats_html ='<li'.$active_sel.'><a href="'.$article_cat_url.'">'.$bn_cat_info['CategoryName'].'</a></li>'."\n";	
 				}
 			}
 			?>
-	
-	<li><a href="<?=SCRIPT_URL?>newscategory/20/ধর্ম/">ধর্ম</a></li>
-	
 			<li><a href="<?=SCRIPT_URL?>photo">গ্যালারি</a></li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">অন্যান্য <span class="caret"></span></a>
 				<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-			<?php 			
+			<?php
+			$menu_rows =$db->select("SELECT * FROM bn_bas_category WHERE ShowData=1 AND CategoryID IN (9,11,12,13,14,15,16,17,18,19,21) ORDER BY CategoryID ASC");
 			if($menu_rows){
 				foreach($menu_rows as $key => $bn_cat_info){	
-				if($key >9){
+			
 				$article_cat_url= SCRIPT_URL.'newscategory/'.$bn_cat_info['CategoryID'].'/'.$bn_cat_info['CategoryName'].'/';	
 				$active_sel=(strpos(CURRENT_URL,'/'.$bn_cat_info['CategoryID'].'/' ) !==false)?' class="active"':'';
-				if($bn_cat_info['CategoryID'] !=20){
-				 	echo $album_cats_html ='<li'.$active_sel.'><a href="'.$article_cat_url.'">'.$bn_cat_info['CategoryName'].'</a></li>'."\n";   
-				}
-				
-				}
+				echo $album_cats_html ='<li'.$active_sel.'><a href="'.$article_cat_url.'">'.$bn_cat_info['CategoryName'].'</a></li>'."\n";   
 				}
 			}
-			
 				$active_sel=(strpos(CURRENT_URL,'/archives' ) !==false)?' class="active"':'';
 			?>
 				<li<?=$active_sel?>><a href="<?=SCRIPT_URL?>archives">আর্কাইভ</a></li>
