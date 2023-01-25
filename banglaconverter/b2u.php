@@ -4,8 +4,6 @@ include_once('db.php');
 require_once 'bijoy2unicode.php';
 $demo=trim($_POST['convert']);
 
-
-
 $value=$demo;
 
 
