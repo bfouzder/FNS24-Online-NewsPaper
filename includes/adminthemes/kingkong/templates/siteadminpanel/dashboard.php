@@ -17,6 +17,10 @@ $p_info=$db->getRowArray('admin',state('AR_admin_id'));
                     <br />
                     <br />
                     <a href="<?=ADMIN_URL?>manageNews/?doaction=add" class="btn btn-danger btn-large">Add News</a>
+ <a href="<?=ADMIN_URL?>manageBooks/?doaction=add" class="btn btn-warning btn-large"><i class="fa fa-book"></i>Add Book</a>
+
+
+ 
                     <br />
                     <br />
                     </div>

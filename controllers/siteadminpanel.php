@@ -1018,8 +1018,8 @@ function manageTempNews($params=array()){
 			global $db, $session;      
             	if(!$this->user_id){ $this->login();exit; }
         #Assign Basic Table Info 
-            $tableName='all_news';
-            $primaryKey='news_id';
+            $tableName='all_books';
+            $primaryKey='book_id';
             $page = $db->get_post('page');
             $redirect_url ="siteadminpanel/manageBooks/";
             $link ="siteadminpanel/manageBooks/?";
@@ -1028,7 +1028,9 @@ function manageTempNews($params=array()){
                      
             $get_action = $db->get('action');
         	$action_id = $db->get('action_id');
-            		
+            
+			$year=date('Y');
+			$month=date('m');
             	
             	#add/edit Table data
             	if($db->post('formSubmitted')){
@@ -1036,8 +1038,8 @@ function manageTempNews($params=array()){
 					$upload_dir = IMAGE_DIR;
 					$upload_url = IMAGE_URL;
 
-					$upload_dir_book = RESOURCE_STORE.'books/';
-					$upload_url_book = WWW_RESOURCE_STORE.'books/';
+					$upload_dir_book = RESOURCE_STORE.'books/'.$year.'/'.$month.'/';
+					$upload_url_book = WWW_RESOURCE_STORE.'books/'.$year.'/'.$month.'/';
 					
 			        $top_news=$db->post('top_news');
 			        $_POST['top_news']=($top_news)?$top_news:'0'; 
@@ -1236,9 +1238,7 @@ function manageTempNews($params=array()){
                	 $catID=$db->get_post('catID');
                 $sql_query.="AND cat_id='$catID'";
                 $link .="catID=$catID&";
-               }else{
-				$sql_query.="AND cat_id IN(20,23,24,25)";
-			   }
+               }
                
 				if($db->get_post('uploaderID')){
                	 $uploaderID=$db->get_post('uploaderID');
@@ -1288,7 +1288,7 @@ function manageTempNews($params=array()){
                 } 
                 
                // echo 'ffff'. $total_query;
-                $total_query= str_replace('*', 'count(news_id) as total_data_count',$sql_query);
+                $total_query= str_replace('*', 'count('.$primaryKey.') as total_data_count',$sql_query);
                 $total_data = $db->select_single($total_query);
                 $total_data_count=$total_data['total_data_count'];
                // echo '<br/>$total_data_count ='.$total_data_count;
@@ -5782,6 +5782,170 @@ function photosAlbums($params = array()){
 			require(ADMIN_TEMPLATE_STORE.$this->controller . DS .'report_user_wise_news_count.php');  
 			require(ADMIN_GET_TEMPLATE_DIRECTORY. DS .'footer.php');			
 		}
+
+		function manageBooksCategory($params=array()){
+			global $db;     
+				if(!$this->user_id){ $this->login();exit; } 
+	 #Assign Basic Table Info 
+		 $tableName='bn_book_category';
+		 $primaryKey='CategoryID';
+		 $page = $db->get_post('page');
+		 $redirect_url ="siteadminpanel/manageBooksCategory/";
+		 $link ="siteadminpanel/manageBooksCategory/?";
+		 
+		 
+		 $get_action = $db->get('action');
+		 $action_id = $db->get('action_id');
+			 
+			 
+		 #add/edit Table data
+			 if($db->post('formSubmitted')){
+				
+				 $allow_extention=array('jpg','jpeg','png'); 
+				 $upload_dir = IMAGE_DIR.'catimage/';
+				 $upload_url = IMAGE_URL.'catimage/';
+				 
+				 $_POST['parent']=($_POST['parent'])?$_POST['parent']:'0';
+			
+			 $entry_id=$db->bindPOST($tableName, $primaryKey);
+			
+				$zone_id=($action_id)?$action_id:$entry_id;
+				 if($zone_id){
+					// pre($_FILES);
+						if($_FILES){
+						 foreach($_FILES as $file_field_name => $file_info){
+						  if($file_info["name"]){
+							$file_name=$file_info["name"];
+							$file_tmp_name=$file_info["tmp_name"];
+							$file_ext=strtolower(end(explode(".",$file_name)));
+							$new_file_name=$zone_id.'_'.$file_field_name.'_'.$file_name;							
+							if(in_array($file_ext,$allow_extention)){
+								$upload_to=$upload_dir. $new_file_name;
+								$image_url=$upload_url. $new_file_name;
+								 if(@move_uploaded_file($file_tmp_name, $upload_to)){
+									 $db->edit("UPDATE $tableName SET `$file_field_name`='$image_url' WHERE $primaryKey='$zone_id'");
+								 }
+							   }
+							 }//if file name
+						 }//	foreach file
+						 
+					 }//if files   
+				 }//if news_id
+				 
+				 
+				 if(!$get_action){
+					  redirect($redirect_url);   
+				 }
+			 
+			 }
+		   
+						 
+			 #get/post action for list data 
+			 if($get_action)
+			 {
+				 //echo '$get_action'.$get_action;
+				 switch($get_action)
+				 {
+					 case 'approve':
+						 echo $sql = "UPDATE $tableName SET status = '1' WHERE $primaryKey='$action_id'";
+						 $db->update($sql);
+						 break;
+					 case 'disapprove':
+						 $sql = "UPDATE $tableName SET status = '0' WHERE $primaryKey='$action_id'";
+						 $db->update($sql);
+						 break;
+					 
+					case 'edit':
+						 $edit = $db->select_single("SELECT * FROM ".$tableName." where $primaryKey=".$action_id);
+					 break;	  
+					 case 'delete':
+						 $sql = "DELETE FROM $tableName WHERE $primaryKey='$action_id'";
+						 $db->delete($sql);
+					 break;	                 
+		 
+				 }
+				 
+				 if($get_action!='edit')
+				 redirect($redirect_url);
+			 }
+			 
+			  if($db->post('formSubmittedROWS'))   ////////////manage post data
+			   {
+				   
+				$ids = $db->post('action_ids');
+				$post_action = $db->post('action');
+				
+				 
+				   if($ids)
+				   {
+					 //	echo '$post_action'.$post_action;
+					   foreach($ids as $action_id)
+					   {
+						   switch($post_action)
+						   {
+							   case 'approve':
+											 $sql = "UPDATE $tableName SET status = '1' WHERE $primaryKey='$action_id'";
+											   $db->edit($sql);
+											   break;
+								  case 'disapprove':
+											 $sql = "UPDATE $tableName SET status = '0' WHERE $primaryKey='$action_id'";
+											   $db->edit($sql);
+											   break;
+											   
+							 case 'delete':
+											 $sql = "DELETE FROM $tableName WHERE $primaryKey='$action_id'";
+											 $db->delete($sql);    
+											   break;            
+							}	
+						}
+					 }
+				 
+			   }
+			 
+			 
+		  
+			#query for list of data 
+			 
+		  
+			  $sql_query="SELECT * FROM $tableName WHERE $primaryKey !='' ";
+			 
+			 
+			 
+			if($db->get_post('sparent')){
+			 $sparent=$db->get_post('sparent');
+			 $sql_query.="AND parent='$sparent'";
+			 $link .="sparent=$sparent&";
+			}
+			 
+			 #for search
+			 if($db->get_post('q')){
+				 $q=$db->get_post('q');
+				 if(is_numeric($q)){
+					 $sql_query .= "  AND $primaryKey='$q' ";
+				 }elseif(is_string($q)){
+						 $sql_query .= "  AND CategoryName LIKE '%".$db->db_input($q)."%' OR CatRemarks LIKE '%".$db->db_input($q)."%' ";
+				 }
+		 
+				 $link .="sq=$q&";
+			 }
+			 
+										  
+			 $pages = make_pagination($sql_query,$page,10);
+			 $sql_query .= " ORDER BY $primaryKey DESC";
+			 $sql_query .= " LIMIT ".$pages['start_form'].",".$pages['per_page'];
+			 //echo $sql_query;
+			 $rows = $db->select($sql_query);
+		 
+		 
+	
+	
+	
+	   //SHOW PAGES
+	 require(ADMIN_GET_TEMPLATE_DIRECTORY. DS .'header.php');
+	 require(ADMIN_TEMPLATE_STORE.$this->controller . DS .'manage_books_categories.php');  
+	 require(ADMIN_GET_TEMPLATE_DIRECTORY. DS .'footer.php'); 
+	
+ 	}
     
 }//eof class siteadminpanel
 ?>

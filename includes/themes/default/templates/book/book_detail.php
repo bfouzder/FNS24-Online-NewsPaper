@@ -1,6 +1,6 @@
 <style>.book_photo_block{float:left;}
-.book_photo_block img{padding:5px;;}
-
+.book_photo_block img{padding:5px; max-width: 500px;}
+.book_summary{margin:40px;}
 .gray-box {
     background: #aaa;
     padding: 15px;
@@ -17,7 +17,7 @@
 			<div class="page-breadcrumb clearfix">
 			    <ol class="breadcrumb">
         		   <li><a href="<?=SCRIPT_URL?>"><i class="fa fa-home"></i> প্রচ্ছদ </a></li>
-        		   <li><a href="<?=SCRIPT_URL?>books/20/বই/"><i class="fa fa-book"></i> বই</a></li>
+        		   <li><a href="<?=SCRIPT_URL?>book"><i class="fa fa-book"></i> বই</a></li>
         		   <li class="active"><a href="<?=$book_cat_url?>"><?=$book_cat_name?></a></li>
         
         		 </ol>
@@ -33,9 +33,9 @@
 	<div class="meta-block">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
-				<?=$book_article_Writers?> | প্রকাশ:  <?=$book_article_pub_date?>
-<?php if($book_article_pub_date != $book_article_updated_date){ ?>
-				|  আপডেট: <?=$book_article_updated_date?>
+				<?=$book_Writers?> | প্রকাশ:  <?=$book_pub_date?>
+<?php if($book_pub_date != $book_updated_date){ ?>
+				|  আপডেট: <?=$book_updated_date?>
 <?php }else{ ?>	
 
 <?php } ?>				
@@ -49,31 +49,38 @@
 	</div>
 
     <div class="row">
-			<div class="col-xs-12 col-md-5">
+			<div class="col-xs-12 col-md-7">
                 <?php
-               $book_pdf= isset($book_article_info['book_pdf'])?$book_article_info['book_pdf']:'#';
-               $book_summary= isset($book_article_info['book_summary'])?$book_article_info['book_summary']:'';
-                
                 if($book_image): ?>
-                    <div class="book_photo_block">
+                    <div class="book_photo_block" >
                         <img src="<?=$book_image?>" alt="image-here" width=""/>
                         <div class="caption"><?php echo $book_image_caption; ?></div>
                     </div>
                 <?php endif;?>	
-
+				<?php if($book_content){ ?>
                 <a href="javascript:void(0)" onclick="jQuery('#book_content').toggle();" class="btn btn-success"><i class="fa fa-book"></i>  বইটি পড়তে এখানে ক্লিক করুন</a>
-                <?php if($book_pdf){ ?>
-                <a href="<?=$book_pdf?>" class="btn btn-danger" target="_blank"><i class="fa fa-file"></i> বইটি ডাউনলোড করুন</a>
+				<?php }else{  ?>
+					<a href="<?=$book_pdf?>" class="btn btn-danger" target="_blank"><i class="fa fa-book"></i>  বইটি পড়তে এখানে ক্লিক করুন</a>
+                <?php } ?>
+
+				<?php if($book_pdf){ ?>
+                <a href="<?=$book_pdf?>" class="btn btn-danger" target="_blank"><i class="fa fa-book"></i> বইটি ডাউনলোড করুন</a>
                 <?php }  ?>
+
+				<?php if($book_video){ ?>
+                <a href="<?=$book_video?>" class="btn btn-success" target="_blank"><i class="fa fa-youtube"></i> ইউটিউব-এ শুনুন</a>
+                <?php }  ?>
+
             </div> 
-            <div class="col-xs-12 col-md-7">
-                <h2><?php echo $book_title ; ?></h2>
-                <h3><?php echo $book_Writers; ?></h3>
-                <p><?php echo  $book_summary; ?></p>
+            <div class="col-xs-12 col-md-4">
+				<br/>
+			    <div class="book_summary"><?php echo nl2br($book_summary); ?></div>
+				<br/>
+				
             </div> 
     </div> 
 
-	
+	<div id="book_content" style="display:none; margin-top:50px;"><p><?=$book_content?></p></div>
 
 	<div class="clearfix"></div>
 	<div class="sharethis-inline-reaction-buttons"></div>
@@ -99,7 +106,7 @@ if($related_book_rows){ ?>
 	<div class="row inner_more_book">
 		<div class="col-xs-12 col-sm-12">
 			 <div class="panel panel-default">
-			 <div class="panel-heading"> আরও খবর</div>
+			 <div class="panel-heading"> আরও বই</div>
 			  <div class="panel-body">
 				 <div class="row">
 <?php
@@ -112,7 +119,7 @@ if($related_book_rows){ ?>
 	$book_article_image_url2= $book_article_info2['image_url'];
 	#eof Image
 		
-	$book_article_Writers2= $book_article_info2['writer'];	
+	$book_article_Writers2= $book_article_info2['Writers'];	
 	$book_article_url2= __bn_getbookURL($book_article_info2);	
 	?>
 				<div class="col-xs-12 col-sm-4 col-md-3">
@@ -234,7 +241,7 @@ function getDistrict2(iDivisionID){
 					 <div role="tabpanel" class="tab-pane active" id="other-news2">
                         <ul class="list-title-block">
                         <?php 
-                        $sql_query="SELECT * FROM all_news WHERE news_id !='$news_article_ID' AND status=1 AND cat_id='$news_article_CategoryID' ORDER BY news_id DESC LIMIT $limit"; 
+                        $sql_query="SELECT * FROM all_news WHERE status=1  ORDER BY news_id DESC LIMIT $limit"; 
 	                	$related_news_rows = $db->select($sql_query);
                             if($related_news_rows){     
                                 foreach($related_news_rows as $news_info){   

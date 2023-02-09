@@ -34,7 +34,7 @@ class home{
 		$this->is_home =true;
 		if($params){
 			$page_name=trim($params['0']);		
-			$page_info=$this->db->getRowArray("pagemanager", array("page_name" =>$page_name));
+			$page_info=$this->db->getRowArray("pagemanager",array("page_name" =>$page_name));
 			if($page_info){
 				$this->page($params);exit;
 			}
@@ -46,7 +46,6 @@ class home{
 		require(TEMPLATE_STORE.$this->controller . DS .'home.php');  
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
-
 	function newscategory($params = array()){
 		global $lang,$db,$session;
    	
@@ -72,14 +71,9 @@ class home{
 	//	pre($news_cat_rows);
 	//	echo $sql_query;
 	//pre($pages);
-	//pre($news_cat_info);
-	$template='template-category.php';
-	if($news_cat_info['CategoryID'] ==20 || $news_cat_info['parent'] ==20){
-		$template='template-book-home.php';
-	}
-
+	
         require(GET_TEMPLATE_DIRECTORY.'/header.php');
-		require(TEMPLATE_STORE.$this->controller . DS .$template);  
+		require(TEMPLATE_STORE.$this->controller . DS .'template-category.php');  
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
 	
@@ -111,8 +105,7 @@ class home{
 	
 	
         require(GET_TEMPLATE_DIRECTORY.'/header.php');
-	//	require(TEMPLATE_STORE.$this->controller . DS .'template-dist-news.php');  
-		require(TEMPLATE_STORE.$this->controller . DS .'template-archive-news.php');  
+		require(TEMPLATE_STORE.$this->controller . DS .'template-dist-news.php');  
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
 	function mofossol($params = array()){
@@ -133,7 +126,7 @@ class home{
 		$bread_cum_list .= '<li class="active">'. $news_top_title.'</li>';
 		
 		#News by category
-		$sql_query="SELECT * FROM all_news WHERE status=1 AND DistrictID BETWEEN 2 and 66 ORDER BY news_id DESC Limit 200 "; 
+		$sql_query="SELECT * FROM all_news WHERE status=1 AND DistrictID BETWEEN 1 and 66 ORDER BY news_id DESC Limit 200 "; 
 	    /*$sql_query="SELECT * FROM all_news WHERE status=1 AND DistrictID BETWEEN 1 and 66"; 
 		$pages = make_pagination($sql_query,$page,$page_limit);
 		$sql_query .= " LIMIT ".$pages['start_form'].",".$pages['per_page'];
@@ -256,8 +249,7 @@ class home{
 			
 			$page_title = 'সর্বশেষ  সংবাদ';	
 			
-			$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 240000 "; 
-			$sql_query="SELECT *FROM `all_news` WHERE date_added >= DATE(NOW()) - INTERVAL 7 DAY AND status=1"; 
+			$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 150000 "; 
 			$pages = make_pagination($sql_query,$page,$page_limit);
 			$sql_query .= " order by `news_id` desc";
 			
@@ -266,14 +258,14 @@ class home{
 			$page_title = 'শীর্ষ সংবাদ ';	
 			
 			$sql_query="SELECT *FROM `all_news` WHERE status=1 AND spot_light = 1 "; 
-			$sql_query="SELECT *FROM `all_news` WHERE date_added >= DATE(NOW()) - INTERVAL 7 DAY AND status=1 AND spot_light = 1"; 
+			$sql_query="SELECT *FROM `all_news` WHERE cat_id != 14 AND status=1"; //as per mr. saykat 11th may 2019 ; 
 			$pages = make_pagination($sql_query,$page,$page_limit);
 			$sql_query .= " order by `news_id` desc";
 			
 		}else{
 			$page_title = 'সর্বশেষ  সংবাদ';
 			
-				$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 240000"; 
+				$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 150000"; 
 				//order by `news_submission_date` desc
 				$pages = make_pagination($sql_query,$page,$page_limit);
 				$sql_query .= " order by `news_id` DESC";
@@ -455,7 +447,7 @@ class home{
 		//$news_article_pub_date=$news_article_info["DateTimeInserted"];
 	
 		if($news_article_info['news_id_temp']){
-		   $news_article_image = ($news_article_image)?SCRIPT_URL.'includes/3rdParty/timthumb.php?src='.$news_article_image.'&h=560&w=560&zc=3':$news_article_image;	
+		   $news_article_image = ($news_article_image)?SCRIPT_URL.'includes/3rdParty/timthumb.php?src='.$news_article_image.'&h=560&w=560&zc=2':$news_article_image;	
 		}
 	
 		#category Info
@@ -542,15 +534,11 @@ class home{
 		$meta_author=($news_article_Writers)?$news_article_Writers:'নিজস্ব প্রতিবেদক  ';
         //pre($news_cat_info);
                 
-	    
-		
-		$template='article_detail.php';
-		if($news_cat_info['CategoryID'] ==20 || $news_cat_info['parent'] ==20){
-			$template='book_detail.php';
-		}                
+	        
+                
 		
         require(GET_TEMPLATE_DIRECTORY.'/header.php');
-		require(TEMPLATE_STORE.$this->controller . DS .$template);  
+		require(TEMPLATE_STORE.$this->controller . DS .'article_detail.php');  
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
 	
@@ -615,19 +603,17 @@ class home{
 	}
 
 	function page($params=array()){
-		global $db,$lang,$language;
+		global $lang,$language;
 
-    
-	$page_name=($params[0]=='page')?trim($params['1']):trim($params['0']);		
+		$page_name=($params[0]=='page')?trim($params['1']):trim($params['0']);		
 		$page_info=$this->db->getRowArray("pagemanager",array("page_name" =>$page_name));
-	   // pre($params);pre($page_info);exit;
 		if(!$page_info)redirect('page_404');
 
 		$page_id=$page_info['page_id'];
 		
-     //pre($page_info);
+     
 		if(state('pvid')!=$page_id){
-			$db->edit("UPDATE pagemanager SET `viewed` = viewed+1 WHERE page_id=$page_id");
+			mysql_query("UPDATE pagemanager SET `viewed` = viewed+1 WHERE page_id=$page_id");
 			state('pvid',$page_id);
 		}	
 
@@ -717,16 +703,6 @@ class home{
 		require(COMMON_TEMPLATES.'header-common.php');
 		require(TEMPLATE_STORE.$this->controller . DS .'script_log_detail.php');
 		require(COMMON_TEMPLATES.'footer-common.php');
-	}
-	
-	
-
-	function book($params = array()){
-		$this->article($params);
-	}
-	function books($params = array()){
-		$this->newscategory($params);
-	}
-
+	}  
 }
 ?>

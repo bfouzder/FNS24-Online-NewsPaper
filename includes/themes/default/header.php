@@ -43,7 +43,7 @@ $dtTimeDifference=((6*60)*60);
    
     <div class="wrapper">
         <div class="container-fluid main-wrapper">
-<?php if(!isset($this->newspapers)):?>		
+		
  <nav class="navbar head-block">
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
@@ -134,4 +134,3 @@ $dtTimeDifference=((6*60)*60);
 		</ul>
 	</div>
 </nav>
-<?php endif; ?>
