@@ -152,7 +152,12 @@ $panel_title="Update Book";
                 <input type="text" name="meta_keywords" value="<?= $edit['meta_keywords'] ?>"  class="form-control col-md-7 col-xs-12">
                 </div>
             </div>
-
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-12" for="name">Book Serial:</label>
+                <div class="col-md-4 col-sm-4 col-xs-8">
+                <input type="number" name="book_serial" value="<?= $edit['book_serial'] ?>"  class="form-control col-md-2 col-xs-4">
+                </div>
+            </div>
             <div class="form-group submit_sec">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                     <button type="submit" name="submit" class="btn btn-success">Submit</button>
@@ -244,6 +249,7 @@ if(!$doaction):
 <tr>
 <th width="5%"><input type="checkbox" id="check_uncheck_top" value="all" onclick="__checkAll(<?= $rows?count($rows): 0 ?>,'check_uncheck_top')" /></th>
 <th width="5%">ID</th>
+<th width="5%">Serial</th>
 <th width="25%">Title</th>           
 <th width="8%">Uploader</th>           
 <th width="8%">Status</th>
@@ -275,6 +281,7 @@ $uploader_info=$db->select_single("select * from admin where admin_id = ".$book_
 <tr class="<?=$class;?>" >
 <td><input type="checkbox" name="action_ids[]" id="checksingle<?php echo $key; ?>" value="<?=$action_id?>" /></td>
 <td><?= $value[$primaryKey]; ?></td>
+<td><?= $value['book_serial']; ?></td>
 <td><?= $value['book_title']; ?></td>
 <td><?= $uploader_info['fname']; ?></td>                
 <td class="action_active_inactive">

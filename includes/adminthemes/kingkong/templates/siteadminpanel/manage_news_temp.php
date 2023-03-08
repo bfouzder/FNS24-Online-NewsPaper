@@ -397,6 +397,7 @@ $("#big_image_url").change(function(){
           	<th width="15%">Title</th>           
           	<th width="15%">Writer Info</th> 
           	<th width="10%">Image</th>    
+          	<th width="10%">Date</th>    
             <th width="15%">Migrate</th>
             <th>Action</th>
              </tr>
@@ -464,6 +465,7 @@ $("#big_image_url").change(function(){
                           <?php } ?>
 				
 				</td>
+                <td><?=$value['date_added']?></td>
                 <td class="action_active_inactive">
                     <?php if( $value['status'] != 0){ ?>
                         <a href="<?=$news_article_url_ori?>" class="label label-success" target="_blank"><i class="fa fa-check" aria-hidden="true"></i> Migrated</a>

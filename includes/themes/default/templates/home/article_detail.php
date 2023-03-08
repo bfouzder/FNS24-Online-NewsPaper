@@ -231,6 +231,7 @@ function getDistrict2(iDivisionID){
                         <?php 
                         $sql_query="SELECT * FROM all_news WHERE news_id !='$news_article_ID' AND status=1 AND cat_id='$news_article_CategoryID' ORDER BY news_id DESC LIMIT $limit"; 
 	                	$related_news_rows = $db->select($sql_query);
+		
                             if($related_news_rows){     
                                 foreach($related_news_rows as $news_info){   
                                 echo  ar_displayNews($news_info, $news_for='small_thumb_list'); 
@@ -242,11 +243,12 @@ function getDistrict2(iDivisionID){
                 </div>
             </div>
              
-    <? /*?>
+ 
     <div class="fb-block" style="margin: 10px auto;">
-                 <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FFns24%2F&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=47111295515"  style="border:none; overflow:hidden; width:100%; height:490px; border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-    </div>
-    <? */?>        
+             <?php /* ?>    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FFns24%2F&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=47111295515"  style="border:none; overflow:hidden; width:100%; height:490px; border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe><?php */?>
+			 <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FFNS24%2F&tabs=timeline&width=340&height=271&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=47111295515" width="340" height="271" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+	</div>
+          
             <?//=$related_news_html?>
             
 			

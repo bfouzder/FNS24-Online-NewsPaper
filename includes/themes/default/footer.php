@@ -78,18 +78,17 @@ function getDistrict(iDivisionID){
                     <ul class="nav navbar-nav">
 						<li class="active"><a href="<?=SCRIPT_URL?>">প্রচ্ছদ</a></li>               
 						<li><a href="<?=SCRIPT_URL?>mofossol">সারা বাংলা</a></li>
-						<li><a href="<?=SCRIPT_URL?>newscategory/1/জাতীয়">জাতীয়</a></li>
-						<li><a href="<?=SCRIPT_URL?>newscategory/2/রাজনীতি">রাজনীতি</a></li>
+						<li><a href="<?=SCRIPT_URL?>newscategory/27/বাংলাদেশ">বাংলাদেশ</a></li>
 						<li><a href="<?=SCRIPT_URL?>newscategory/3/অর্থনীতি">অর্থনীতি</a></li>
-						<li><a href="<?=SCRIPT_URL?>newscategory/4/বিদেশ">বিদেশ</a></li>
+						<li><a href="<?=SCRIPT_URL?>newscategory/4/বিশ্ব">বিশ্ব</a></li>
 						<li><a href="<?=SCRIPT_URL?>newscategory/5/খেলা">খেলা</a></li>
 						<li><a href="<?=SCRIPT_URL?>newscategory/6/বিনোদন">বিনোদন</a></li>
 						<li><a href="<?=SCRIPT_URL?>newscategory/7/লাইফস্টাইল">লাইফস্টাইল</a></li>
-						<li><a href="<?=SCRIPT_URL?>newscategory/8/তথ্য-প্রয">তথ্য-প্রযুক্তি</a></li>
+						<li><a href="<?=SCRIPT_URL?>newscategory/8/প্রযুক্তি">প্রযুক্তি</a></li>
 						<li><a href="<?=SCRIPT_URL?>newscategory/9/স্বাস্থ্য">স্বাস্থ্য</a></li>
 						<li><a href="<?=SCRIPT_URL?>newscategory/10/মুক্তমত">মুক্তমত</a></li>
 						<li><a href="<?=SCRIPT_URL?>newscategory/11/প্রবাস">প্রবাস</a></li>
-						<li><a href="<?=SCRIPT_URL?>photo">গ্যালারি</a></li>
+						<li><a href="<?=SCRIPT_URL?>photo">ছবি</a></li>
 						<li><a href="#top-block">টপ <i class="fa fa-angle-double-up"></i></a></li>
                     </ul>
                 </div>

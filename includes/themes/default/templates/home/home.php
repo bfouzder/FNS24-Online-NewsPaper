@@ -83,7 +83,7 @@
 				</div>
 		</div>    
 		<div class="col-xs-12 col-sm-4 col-md-3">
-			<a href="https://bangla-converter.com/" target="_blank"><img src="https://bangla-converter.com/images/logo.png" alt="bangla converter"></a>		
+			<a href="https://bangla-converter.com/" target="_blank"><img src="https://www.fns24.com/resources/bangla_converter.jpg" alt="bangla converter"></a>		
 			<br/>
 			<a href="https://www.fns24.com/allnewspaper/" target="_blank"><img src="https://www.fns24.com/resources/ads/all_news_paper.jpg" alt="All News Paper"></a>		
 		</div>
@@ -135,16 +135,35 @@
 <section class="section-block section-flex clearfix">
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-3">
-        	<?=ar_showNewsCategoryWidget($cat_id=1, $limit =4, $widget_title='জাতীয়')?>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-3">
-        	<?=ar_showNewsCategoryWidget($cat_id=2, $limit =4, $widget_title='রাজনীতি')?>
+        	<?=ar_showNewsCategoryWidget($cat_id=27, $limit =4, $widget_title='বাংলাদেশ')?>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
         	<?=ar_showNewsCategoryWidget($cat_id=3, $limit =4, $widget_title='অর্থনীতি')?>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
-        	<?=ar_showNewsCategoryWidget($cat_id=4, $limit =4, $widget_title='বিদেশ')?>
+        	<?=ar_showNewsCategoryWidget($cat_id=4, $limit =4, $widget_title='বিশ্ব')?>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="story-list-block">
+                <ul class="nav nav-tabs nav-justified" role="tablist">
+                  	<li role="presentation" class="active"><a href="#muktomot-news" aria-controls="home"   role="tab" data-toggle="tab">মুক্তমত </a></li>
+                   <li role="presentation"><a href="#editorial-news" aria-controls="profile" role="tab" data-toggle="tab">সম্পাদকীয় </a></li>
+                </ul>
+                <div class="tab-content">                    
+					<div role="tabpanel" class="tab-pane active" id="muktomot-news">
+                        <ul class="list-title-block">
+                              <?=ar_showTablistNews($type='muktomot', $limit =6);?>
+                        </ul>
+						<div class="more"><a href="http://www.fns24.com/newscategory/10/মুক্তমত/">আরও</a></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="editorial-news">
+                        <ul class="list-title-block">
+                             <?=ar_showTablistNews($type='editorial', $limit =6);?>
+                        </ul>
+						<div class="more"><a href="http://www.fns24.com/newscategory/18/সম্পাদকীয়/">আরও</a></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -172,7 +191,7 @@
              </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-3">
-           <h3 class="title-bar-black"><a href="<?=__bn_getCatURL($cat_id=8)?>">তথ্য-প্রযুক্তি</a></h3>
+           <h3 class="title-bar-black"><a href="<?=__bn_getCatURL($cat_id=8)?>">প্রযুক্তি</a></h3>
             <div class="section-overlay-block" style="border:0; padding:0;">
                 <?php 
                     $news=ar_getNewsByCategory($cat_id=8, $limit=2);
@@ -210,37 +229,18 @@
 <?=ar_showAds($position=6);?>
 <section class="section-block section-flex clearfix">
     <div class="row">
-        <div class="col-xs-12 col-sm-4 col-md-3">
-        	<?=ar_showNewsCategoryWidget($cat_id=16, $limit =4, $widget_title='ফিচার')?>
+         <div class="col-xs-12 col-sm-4 col-md-3">
+            <?=ar_showNewsCategoryWidget($cat_id=20, $limit =4, $widget_title='ধর্ম')?>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-3">        	
+        	<?=ar_showNewsCategoryWidget($cat_id=15, $limit =4, $widget_title='সাহিত্য')?>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-3">
-        	<?=ar_showNewsCategoryWidget($cat_id=17, $limit =4, $widget_title='প্রকৃতি ও পরিবেশ ')?>
+        	<?=ar_showNewsCategoryWidget($cat_id=13, $limit =4, $widget_title='সংগঠন ')?>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-3">
-        	<?=ar_showNewsCategoryWidget($cat_id=9, $limit =4, $widget_title='স্বাস্থ্য')?>
-        </div>
-        <div class="col-xs-12 col-sm-4 col-md-3">
-        	   <div class="story-list-block">
-                <ul class="nav nav-tabs nav-justified" role="tablist">
-                  	<li role="presentation" class="active"><a href="#muktomot-news" aria-controls="home"   role="tab" data-toggle="tab">মুক্তমত </a></li>
-                   <li role="presentation"><a href="#editorial-news" aria-controls="profile" role="tab" data-toggle="tab">সম্পাদকীয় </a></li>
-                </ul>
-                <div class="tab-content">                    
-					<div role="tabpanel" class="tab-pane active" id="muktomot-news">
-                        <ul class="list-title-block">
-                              <?=ar_showTablistNews($type='muktomot', $limit =6);?>
-                        </ul>
-						<div class="more"><a href="http://www.fns24.com/newscategory/10/মুক্তমত/">আরও</a></div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="editorial-news">
-                        <ul class="list-title-block">
-                             <?=ar_showTablistNews($type='editorial', $limit =6);?>
-                        </ul>
-						<div class="more"><a href="http://www.fns24.com/newscategory/18/সম্পাদকীয়/">আরও</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        	<?=ar_showNewsCategoryWidget($cat_id=11, $limit =4, $widget_title='প্রবাস')?>
+        </div>       
      </div> 
 </section>  
 <?=ar_showAds($position=7);?> 
@@ -256,36 +256,11 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-3">
-           <h3 class="title-bar-black"><a href="<?=__bn_getCatURL($cat_id=7)?>">লাইফস্টাইল</a></h3>
-            <div class="section-overlay-block" style="border:0; padding:0;">
-                <?php 
-                   if($life_style_news){ foreach($life_style_news as $k=> $news_info){
-							if($k > 1) {
-							   echo ar_displayNews($news_info, $news_for='overlay-block'); 
-							}
-                        } //foreach
-                    }
-                ?>
-            </div>
+           <?php $todayDate=''; include('sidebar_archive.php');?>
         </div>
     </div>
 </section>
-<section class="section-block section-flex clearfix">       
-     <div class="row">  
-        <div class="col-xs-12 col-sm-4 col-md-3">
-        	<?=ar_showNewsCategoryWidget($cat_id=12, $limit =4, $widget_title='শিক্ষা')?>
-        </div>
-        <div class="col-xs-12 col-sm-4 col-md-3">
-        	<?=ar_showNewsCategoryWidget($cat_id=15, $limit =4, $widget_title='সাহিত্য')?>
-        </div>
-        <div class="col-xs-12 col-sm-4 col-md-3">
-        	<?=ar_showNewsCategoryWidget($cat_id=13, $limit =4, $widget_title='প্রেসরিলিজ')?>
-        </div> 
-         <div class="col-xs-12 col-sm-4 col-md-3">
-			<?php $todayDate=''; include('sidebar_archive.php');?>
-        </div>                  
-    </div>
-</section>
+
 <?=ar_showAds($position=8);?> 
 
 <script>

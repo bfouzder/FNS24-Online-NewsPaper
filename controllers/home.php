@@ -77,18 +77,21 @@ class home{
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
 	
+    function archives($params = array()){
+		$this->archive($params);
+	}
     function archive($params = array()){
 		global $lang,$db,$session;
    	
-   	
-   	    $date=$db->get('date');
-   	    $date = ($date)?$date:date('Y-m-d');
-   	    $display_date=ar_FormatDateEn2Bn($date,'j F, Y');
+   
+   	    $ar_date=$db->get('date');
+   	    $ar_date = ($ar_date)?$ar_date:date('Y-m-d');
+   	    $display_date=ar_FormatDateEn2Bn($ar_date,'j F, Y');
    	    
 		//pre($params);
 		$page = $db->get('page');
 		$page_limit=10;
-		$link ="archive/?date=$date&";
+		$link ="archive/?date=$ar_date&";
 	
       
         $news_top_title= 'আর্কাইভ';
@@ -97,7 +100,7 @@ class home{
 		$bread_cum_list .= '<li class="active">'. $display_date.'</li>';
 		
 		#News by category
-		$sql_query="SELECT * FROM all_news WHERE status=1 AND date(`date_added`)='$date' ORDER BY news_id DESC "; 
+		$sql_query="SELECT * FROM all_news WHERE status=1 AND date(`date_added`)='$ar_date' ORDER BY news_id DESC "; 
 		$pages = make_pagination($sql_query,$page,$page_limit);
 		$sql_query .= " LIMIT ".$pages['start_form'].",".$pages['per_page'];
 		$news_cat_rows = $db->select($sql_query);
@@ -105,7 +108,7 @@ class home{
 	
 	
         require(GET_TEMPLATE_DIRECTORY.'/header.php');
-		require(TEMPLATE_STORE.$this->controller . DS .'template-dist-news.php');  
+		require(TEMPLATE_STORE.$this->controller . DS .'template-archive-news.php');  
 	    require(GET_TEMPLATE_DIRECTORY.'/footer.php');		
 	}
 	function mofossol($params = array()){
@@ -242,14 +245,14 @@ class home{
 			
 			$sql_query="SELECT * FROM all_news where `status`='1' "; 
 			$sql_query="SELECT *FROM `all_news` WHERE date_added >= DATE(NOW()) - INTERVAL 7 DAY AND status=1"; 
-			$pages = make_pagination($sql_query,$page,$page_limit);
+			$pages = make_pagination($sql_query,$page,$page_limit=100);
 			$sql_query .= " order by `total_read` desc";
 			
 		}elseif($news_type =='latest'){
 			
 			$page_title = 'সর্বশেষ  সংবাদ';	
 			
-			$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 150000 "; 
+			$sql_query="SELECT * FROM all_news where `status`='1' AND news_id > 200000 "; 
 			$pages = make_pagination($sql_query,$page,$page_limit);
 			$sql_query .= " order by `news_id` desc";
 			
@@ -258,10 +261,12 @@ class home{
 			$page_title = 'শীর্ষ সংবাদ ';	
 			
 			$sql_query="SELECT *FROM `all_news` WHERE status=1 AND spot_light = 1 "; 
-			$sql_query="SELECT *FROM `all_news` WHERE cat_id != 14 AND status=1"; //as per mr. saykat 11th may 2019 ; 
+			$sql_query="SELECT *FROM `all_news` WHERE news_id > 200000 AND cat_id != 14 AND status=1"; //as per mr. saykat 11th may 2019 ; 
+			//$sql_query .=" Limit 50"; //as per mr. saykat 11th may 2019 ; 
 			$pages = make_pagination($sql_query,$page,$page_limit);
+			$pages = array();
 			$sql_query .= " order by `news_id` desc";
-			
+			//echo $sql_query;
 		}else{
 			$page_title = 'সর্বশেষ  সংবাদ';
 			
@@ -313,7 +318,7 @@ class home{
 		$news_article_image_caption=($big_image_url_caption)?$big_image_url_caption:$image_url_caption;	
 		
 		
-		$news_article_image = ($news_article_image)?SCRIPT_URL.'includes/3rdParty/timthumb.php?src='.$news_article_image.'&h=560&w=560&zc=2':$news_article_image;
+		$news_article_image = ($news_article_image)?SCRIPT_URL.'includes/3rdParty/timthumb.php?src='.$news_article_image.'&h=560&w=560&zc=3':$news_article_image;
         
 		$news_article_content= $news_article_info["news_details"];
 		$news_article_excerpt= trunc_words($news_article_content,40);
@@ -447,7 +452,7 @@ class home{
 		//$news_article_pub_date=$news_article_info["DateTimeInserted"];
 	
 		if($news_article_info['news_id_temp']){
-		   $news_article_image = ($news_article_image)?SCRIPT_URL.'includes/3rdParty/timthumb.php?src='.$news_article_image.'&h=560&w=560&zc=2':$news_article_image;	
+		   $news_article_image = ($news_article_image)?SCRIPT_URL.'includes/3rdParty/timthumb.php?src='.$news_article_image.'&h=560&w=560&zc=3':$news_article_image;	
 		}
 	
 		#category Info

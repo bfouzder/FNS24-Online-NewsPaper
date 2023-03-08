@@ -70,6 +70,7 @@ class book{
 		
 		#News by category
 		$sql_query="SELECT * FROM all_books WHERE status=1 AND cat_id='$book_cat_id' ORDER BY book_id DESC "; 
+		$sql_query="SELECT * FROM all_books WHERE status=1 AND cat_id='$book_cat_id' ORDER BY book_serial "; 
 		$pages = make_pagination($sql_query,$page,$page_limit);
 		$sql_query .= " LIMIT ".$pages['start_form'].",".$pages['per_page'];
 		$book_rows = $db->select($sql_query);
@@ -139,6 +140,7 @@ if($types){
 		
 		#News by category
 		$sql_query="SELECT * FROM all_books WHERE status=1 AND date(`date_added`)='$date' ORDER BY book_id DESC "; 
+		$sql_query="SELECT * FROM all_books WHERE status=1 AND date(`date_added`)='$date' ORDER BY book_serial "; 
 		$pages = make_pagination($sql_query,$page,$page_limit);
 		$sql_query .= " LIMIT ".$pages['start_form'].",".$pages['per_page'];
 		$news_cat_rows = $db->select($sql_query);
@@ -229,7 +231,7 @@ if($types){
 		$book_Writers=($book_Writers)?$book_Writers:'নিজস্ব ';
         //pre($book_cat_info);
           
-		$related_book_sql="SELECT * FROM `all_books` WHERE book_id !='$book_ID' AND cat_id = $book_CategoryID";
+		$related_book_sql="SELECT * FROM `all_books` WHERE book_id !='$book_ID' AND cat_id = $book_CategoryID order by book_serial";
 	    $related_book_rows=$db->select($related_book_sql);
 		
 		               

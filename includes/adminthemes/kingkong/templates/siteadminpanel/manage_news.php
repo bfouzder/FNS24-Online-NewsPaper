@@ -581,7 +581,7 @@ function checkcat(catID){
 	
 	function __getNewsCatOptions($parentID=false){
 		global $db;
-		$types=$db->select("SELECT * FROM bn_bas_category WHERE parent=0");
+		$types=$db->select("SELECT * FROM bn_bas_category WHERE parent=0 and status =1 order by Priority");
 		foreach($types as $type){
 			$sel = ($type['CategoryID'] == $parentID)? 'selected="selected"':'';
 			$option.='<option value="'.$type['CategoryID'].'"'.$sel.'>'.$type['CategoryName'].'</option>';

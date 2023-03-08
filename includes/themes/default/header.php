@@ -2,7 +2,6 @@
 $dtTimeDifference=((6*60)*60);
 ?>
 <div id="top-block">
-  
     <header class="header"><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <div class="wrapper">
             <div class="container-fluid">
@@ -20,7 +19,7 @@ $dtTimeDifference=((6*60)*60);
                                  <li><a href="<?=SCRIPT_URL?>publicnews">Public News</a></li>
                                 <li><a href="http://shop.fns24.com/" target="_blank">News Service</a></li>
                                  <li><a href="<?=SCRIPT_URL?>payment/" target="_blank" style="color:yellow">Payment</a></li>
-                                  <li><a href="<?=SCRIPT_URL?>newspapers/" target="_blank">Bangladeshi Newspaper</a></li>
+                                  <li><a href="<?=SCRIPT_URL?>newspapers/" target="_blank">Newspaper</a></li>
                             </ul>
                         </div>
                     </div>
@@ -40,7 +39,6 @@ $dtTimeDifference=((6*60)*60);
             </div>
         </div>
     </header>
-   
     <div class="wrapper">
         <div class="container-fluid main-wrapper">
 		
@@ -101,33 +99,82 @@ $dtTimeDifference=((6*60)*60);
 		<?php } ?>
 			<?php 
 			//$menu_rows =$db->select("SELECT * FROM image_categories WHERE active=1 and cat_id NOT IN (36,38)");
-			$menu_rows =$db->select("SELECT * FROM bn_bas_category WHERE ShowData=1 AND CategoryID IN (1,2,3,4,5,6,7,8,10,20,22) ORDER BY CategoryID ASC");
-			if($menu_rows){
-				foreach($menu_rows as $key => $bn_cat_info){
+			//$menu_rows =$db->select("SELECT * FROM bn_bas_category WHERE ShowData=1 AND CategoryID IN (1,2,3,4,5,6,7,8,10,20,22) ORDER BY CategoryID ASC");
+			$menu_rows =$db->select("SELECT * FROM bn_bas_category WHERE ShowData=1 AND CategoryID IN (27,3,4,5,6,7,8,10,15,16,20,22)");
+			$main_menus=array(
+			//'হোম'=>'',
+			//'জেলার সংবাদ'=>'alldistrictnews',
+			'বাংলাদেশ'=>27,
+			'বিশেষ সংবাদ'=>19,
+			'অর্থনীতি'=>3,
+			'বিনোদন'=>6,
+			'খেলা'=>5,
+			'বিশ্ব'=>4,
+			'লাইফস্টাইল'=>7,
+			'প্রযুক্তি'=>8,
+			'সংগঠন'=>13,
+			'ধর্ম'=>20,
+			'সাহিত্য'=>15,
+			'মুক্তমত'=>10,
+			//'সম্পাদকীয়'=>18,
+			//'প্রবাস'=>11,
+			//'ছবি'=>19,
+			//'এইদিনে'=>21,
+			//'আর্কাইভ'=>'archives'
+		    );
 			
+			$mm_list=array();
+			if($main_menus){
+				foreach($main_menus as $key => $bn_cat){
+
+					$bn_cat_info=array('CategoryID'=>$bn_cat,'CategoryName'=>$key);
+					//pre($bn_cat_info);
+
         				$article_cat_url= SCRIPT_URL.'newscategory/'.$bn_cat_info['CategoryID'].'/'.$bn_cat_info['CategoryName'].'/';	
         				$active_sel=(strpos(CURRENT_URL,'/newscategory/'.$bn_cat_info['CategoryID'].'/' ) !==false)?' class="active"':'';
-        				echo $album_cats_html ='<li'.$active_sel.'><a href="'.$article_cat_url.'">'.$bn_cat_info['CategoryName'].'</a></li>'."\n";	
+        			    $album_cats_html ='<li'.$active_sel.'><a href="'.$article_cat_url.'">'.$bn_cat_info['CategoryName'].'</a></li>'."\n";	
+        				if($bn_cat_info['CategoryID'] == 27){
+        				  echo $album_cats_html;  
+        				}else{
+
+        				    $mm_list[$bn_cat_info['CategoryID']]= $album_cats_html;
+        				}
 				}
+				
+				echo @implode(' ',$mm_list);
 			}
 			?>
-			<li><a href="<?=SCRIPT_URL?>photo">গ্যালারি</a></li>
+			<!--<li><a href="<?=SCRIPT_URL?>photo">ছবি</a></li>-->
+		
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">অন্যান্য <span class="caret"></span></a>
 				<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
 			<?php
-			$menu_rows =$db->select("SELECT * FROM bn_bas_category WHERE ShowData=1 AND CategoryID IN (9,11,12,13,14,15,16,17,18,19,21) ORDER BY CategoryID ASC");
-			if($menu_rows){
-				foreach($menu_rows as $key => $bn_cat_info){	
+			//$menu_rows =$db->select("SELECT * FROM bn_bas_category WHERE ShowData=1 AND CategoryID IN (9,11,12,13,14,15,16,17,18,19,21) ORDER BY CategoryID ASC");
+			//$menu_rows =$db->select("SELECT * FROM bn_bas_category WHERE ShowData=1 AND CategoryID IN (11,13,14,18,21) ORDER BY CategoryID ASC");
+			$main_menus2=array(
+			'সম্পাদকীয়'=>18,
+			'প্রবাস'=>11,
+			//'ছবি'=>19,
+			'এইদিনে'=>21,
+			//'আর্কাইভ'=>'archives'
+		    );
 			
+			if($main_menus2){
+				foreach($main_menus2 as $key => $bn_cat){	
+				$bn_cat_info=array('CategoryID'=>$bn_cat,'CategoryName'=>$key);
+					//pre($bn_cat_info);
+
 				$article_cat_url= SCRIPT_URL.'newscategory/'.$bn_cat_info['CategoryID'].'/'.$bn_cat_info['CategoryName'].'/';	
 				$active_sel=(strpos(CURRENT_URL,'/'.$bn_cat_info['CategoryID'].'/' ) !==false)?' class="active"':'';
 				echo $album_cats_html ='<li'.$active_sel.'><a href="'.$article_cat_url.'">'.$bn_cat_info['CategoryName'].'</a></li>'."\n";   
 				}
 			}
-				$active_sel=(strpos(CURRENT_URL,'/archives' ) !==false)?' class="active"':'';
+				$active_sel=(strpos(CURRENT_URL,'/archive' ) !==false)?' class="active"':'';
 			?>
-				<li<?=$active_sel?>><a href="<?=SCRIPT_URL?>archives">আর্কাইভ</a></li>
+		
+				<li<?=$active_sel?>><a href="<?=SCRIPT_URL?>photo">ছবি</a></li>
+				<li<?=$active_sel?>><a href="<?=SCRIPT_URL?>archive">আর্কাইভ</a></li>
 				
 			</ul>
 		</li>
