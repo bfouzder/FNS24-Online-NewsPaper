@@ -12,13 +12,16 @@
 class dbclass
 {
 		
-		var $SHOW_ERROR = TRUE;//TRUE TO THIS $SHOW_ERROR DISPLAY ANY TYPE OF MYSQL ERROR; //FALSE TO DO NOTING
-	
-    // Need to set these constant variables:
-        var $DBASE    = DB_DATABASE;
-        var $USER     = DB_SERVER_USERNAME;
-        var $PASS     = DB_SERVER_PASSWORD;
-        var $SERVER   = DB_SERVER;
+    	 var $SHOW_ERROR = TRUE; //TRUE TO DISPLAY ANY MYSQL ERROR, FALSE TO DO NOTHING
+    
+        // Need to set these constant variables:
+        var $DBASE  = DB_DATABASE;
+        var $USER   = DB_SERVER_USERNAME;
+        var $PASS   = DB_SERVER_PASSWORD;
+        var $SERVER = DB_SERVER;
+    
+        // Declare $CONN property explicitly
+        var $CONN;
 
         //function dbclass(){
         function __construct(){
@@ -28,6 +31,7 @@ class dbclass
                 $server = $this->SERVER;
                 $dbase = $this->DBASE;
                 $conn = mysqli_connect($server,$user,$pass,$dbase);
+               // @mysqli_query("SET AUTOCOMMIT=0");
                 @mysqli_query($conn, "SET AUTOCOMMIT=0");
 				if (mysqli_connect_errno()){
 				  $this->error("Failed to connect to MySQLi: " . mysqli_connect_error());
@@ -182,8 +186,7 @@ class dbclass
                 if(empty($this->CONN)) { return false; }
                 $conn = $this->CONN;
                 //echo $sql;
-              #  $results = mysqli_query($conn,$sql);
-                $results = @mysqli_query($conn,$sql, MYSQLI_USE_RESULT);
+                $results = mysqli_query($conn,$sql);
                 if( (!$results) or (empty($results)) ) {
                         return false;
                 }
@@ -218,14 +221,12 @@ class dbclass
 
                 if(empty($this->CONN)) { return false; }
                 $conn = $this->CONN;
-                $results = mysqli_query($conn,$sql);
-               # $results = @mysqli_query($conn,$sql, MYSQLI_USE_RESULT);
+                $results = @mysqli_query($conn,$sql);
                 if( (!$results) or (empty($results)) ) {
-                       // return false;
+                        return false;
                 }
                 $tot=0;
                 $tot=mysqli_affected_rows($conn);
-                //$this->close();
                 return $tot;
         }
 
@@ -335,9 +336,7 @@ class dbclass
 	      return trim(stripslashes($string));
 	    } elseif (is_array($string)) {
 	      reset($string);
-		  //This each function has been DEPRECATED as of PHP 7.2.0, and REMOVED as of PHP 8.0.0. 
-	      #while (list($key, $value) = each($string)) {
-	      foreach($string as $key => $value) {
+	      while (list($key, $value) = each($string)) {
 	        $string[$key] = $this->db_prepare_input($value);
 	      }
 	      return $string;
@@ -721,7 +720,7 @@ class dbclass
     
     
 	
-	function executeSingle($select = '*' , $table_name = '' , $where = '' , $show=0)
+	function executeSingle($select = '*' , $table_name , $where = '' , $show=0)
     {  		
 		$conn=$this->CONN;
 	
@@ -754,7 +753,7 @@ class dbclass
     	$affected_row = mysqli_affected_rows($conn);    	
     }
     
-    function querySingle($select = '*' , $table_name = '' , $where = '')
+    function querySingle($select = '*' , $table_name , $where = '')
     {  
 	  $conn=$this->CONN;	  	
     	$sql_select = "select " . $select . " from " . $table_name ." where " . $where . " limit 0,1";
@@ -768,7 +767,7 @@ class dbclass
     	}    	
     }
     
-    function dbQuery($select = '*' , $table_name = '' , $where = '' , $order_by = '' , $limit = '',$show=0)
+    function dbQuery($select = '*' , $table_name , $where = '' , $order_by = '' , $limit = '',$show=0)
     {	
 	
     	$sql_select = "select " . $select . " from " . $table_name;
@@ -964,7 +963,7 @@ class dbclass
 	
 	
 	
-	function Query($select = '*' , $table_name = '' , $where = '' , $order_by = '' , $limit = '')
+	function Query($select = '*' , $table_name , $where = '' , $order_by = '' , $limit = '')
     {
     	$sql_select = "select " . $select . " from " . $table_name;
     	$where = trim($where);
